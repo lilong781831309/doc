@@ -1,0 +1,1038 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c6054450-1060-4123-a8f4-e2d90470c637" name="Default" comment="" />
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/example-spring/target/" />
+    <ignored path="$PROJECT_DIR$/example-spring/example-spring-mvc/target/" />
+    <ignored path="$PROJECT_DIR$/example-spring/example-spring-cache-redis/target/" />
+    <ignored path="$PROJECT_DIR$/example-spring/example-spring-exception/target/" />
+    <ignored path="$PROJECT_DIR$/example-spring/example-spring-rest-template/target/" />
+    <ignored path="$PROJECT_DIR$/example-spring/example-spring-aspect-logger/target/" />
+    <ignored path="$PROJECT_DIR$/example-spring/example-spring-aspect-validate/target/" />
+    <ignored path="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/target/" />
+    <ignored path="$PROJECT_DIR$/example-spring/example-spring-jpa/target/" />
+    <ignored path="$PROJECT_DIR$/example-spring/example-spring-elasticsearch/target/" />
+    <ignored path="$PROJECT_DIR$/example-maven/target/" />
+    <ignored path="$PROJECT_DIR$/example-logback/target/" />
+    <ignored path="$PROJECT_DIR$/example-threads/target/" />
+    <ignored path="$PROJECT_DIR$/example-proxy/target/" />
+    <ignored path="$PROJECT_DIR$/example-json/target/" />
+    <ignored path="$PROJECT_DIR$/example-io/target/" />
+    <ignored path="$PROJECT_DIR$/example-reflect/target/" />
+    <ignored path="$PROJECT_DIR$/example-spring/example-spring-lock/target/" />
+    <ignored path="$PROJECT_DIR$/example-spring/example-spring-aspect/target/" />
+    <ignored path="$PROJECT_DIR$/example-spring/example-spring-json/target/" />
+    <ignored path="$PROJECT_DIR$/example-datastruct/target/" />
+    <ignored path="$PROJECT_DIR$/example-algorithms/target/" />
+    <ignored path="$PROJECT_DIR$/example-log4j/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="InsertSort.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/InsertSort.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="11" column="59" selection-start-line="11" selection-start-column="59" selection-end-line="11" selection-end-column="59" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DirectConfig.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/config/DirectConfig.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="16" column="71" lean-forward="true" selection-start-line="16" selection-start-column="71" selection-end-line="16" selection-end-column="71" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MergeSort.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/MergeSort.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="466">
+              <caret line="48" column="30" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FanoutConfig.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/config/FanoutConfig.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="31" column="5" lean-forward="true" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="QuickSort.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/QuickSort.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="14" column="33" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RadixSort.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/RadixSort.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SelectSort.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/SelectSort.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="493">
+              <caret line="29" column="54" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ShellSort.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/ShellSort.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AVL.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example-datastruct/src/main/java/org/xinua/example/datastruct/tree/AVL.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="902">
+              <caret line="505" column="40" selection-start-line="505" selection-start-column="40" selection-end-line="505" selection-end-column="40" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/example-log4j/pom.xml">
+          <provider editor-type-id="MavenHelperPluginDependencyAnalyzer" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="238">
+              <caret line="14" column="10" lean-forward="true" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>CHina</find>
+      <find>MappingJackson2HttpMessageConverter</find>
+      <find>httpcomponents</find>
+      <find>httpclient.version</find>
+      <find>WRITE_DATES_AS_TIMESTAMPS</find>
+    </findStrings>
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="projectSyncType">
+      <map>
+        <entry key="$PROJECT_DIR$/../spring-framework" value="PREVIEW" />
+      </map>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/example-spring/example-spring-aspect/src/main/java/org/xinua/example/spring/aspect/logger/annotation/LogTime.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-aspect/src/main/java/org/xinua/example/spring/aspect/logger/annotation/Level.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-aspect/src/main/java/org/xinua/example/spring/aspect/logger/annotation/LogResult.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-aspect/pom.xml" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-aspect/src/main/java/org/xinua/example/spring/aspect/logger/annotation/LogParam.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-aspect/src/main/java/org/xinua/example/spring/aspect/logger/util/ResultEntity.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-aspect/src/main/java/org/xinua/example/spring/aspect/logger/aspect/LoggerAspect.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-aspect/src/main/java/org/xinua/example/spring/aspect/logger/controller/TestController.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/pom.xml" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/ExampleApplication.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/config/FanoutConfig.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/producer/DirectProducer.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/producer/FanoutProducer.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/model/Message.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/consumer/FanoutConsumer.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/config/DirectConfig.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/consumer/TopicConsumer.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/producer/TopicProducer.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/config/TopicConfig.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/model/Msg.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/controller/DirectController.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/controller/FanoutController.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/controller/TopicController.java" />
+        <option value="$PROJECT_DIR$/example-json/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/example-json/src/main/java/org/xinua/example/json/jackson/config/ObjectMapperConfig.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rest-template/src/main/java/org/xinua/example/spring/rest/template/util/JacksonUtil.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-mvc/src/main/java/org/xinua/example/spring/mvc/util/JacksonUtil.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-lock/src/main/java/org/xinua/example/spring/lock/config/RedisConfig.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-cache-redis/src/main/java/org/xinua/example/spring/cache/redis/util/JacksonUtil.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-cache-redis/src/main/java/org/xinua/example/spring/cache/redis/config/RedisConfig.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-exception/src/main/java/org/xinua/example/spring/exception/util/JacksonUtil.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-jpa/pom.xml" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-json/pom.xml" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-json/src/main/java/org/xinua/example/spring/json/jackson/config/ObjectMapperConfig.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-json/src/main/java/org/xinua/example/spring/json/ExampleApplication.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/config/RabbitMQConfig.java" />
+        <option value="$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/consumer/DirectConsumer.java" />
+        <option value="$PROJECT_DIR$/example-datastruct/src/main/java/org/xinua/example/datastruct/tree/AVL.java" />
+        <option value="$PROJECT_DIR$/example-datastruct/src/main/java/org/xinua/example/datastruct/heap/Heap.java" />
+        <option value="$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/BubbleSort.java" />
+        <option value="$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/SelectSort.java" />
+        <option value="$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/InsertSort.java" />
+        <option value="$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/ShellSort.java" />
+        <option value="$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/MergeSort.java" />
+        <option value="$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/QuickSort.java" />
+        <option value="$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/Sort.java" />
+        <option value="$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/CountSort.java" />
+        <option value="$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/HeapSort.java" />
+        <option value="$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/BucketSort.java" />
+        <option value="$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/RadixSort.java" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="D:/develop/apache-maven-3.5.3" />
+        <option name="userSettingsFile" value="D:\Repository\photon_settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="createModuleGroups" value="true" />
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="example-logback" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="example-spring-aspect" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
+  <component name="MavenRunner">
+    <option name="jreName" value="1.8" />
+    <option name="vmOptions" value="-Xms1G -Xmx1G -Dfile.encoding=UTF-8" />
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
+  </component>
+  <component name="ProjectFrameBounds" extendedState="7">
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="160" />
+    <option name="height" value="39" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <hideEmptyPackages ProjectPane="true" />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="example" type="b2602c69:ProjectViewProjectNode" />
+              <item name="example" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="D:/git-xinhua/cmp-refactor-be/cms-service" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\github\example\example-spring\example-spring-json\src\main\resources" />
+      <recent name="D:\github\example\example-json\src\main\resources" />
+      <recent name="D:\github\example\example-spring\example-spring-rabbitmq\src\main\resources" />
+      <recent name="D:\github\example-main\example-spring\example-spring-aspect\src\main\java\org\xinua\example\spring\aspect\logger" />
+      <recent name="D:\github\example-main\example-spring\example-spring-aspect\src\main\java\org\xinua\example\spring\aspect\logger\annotation" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="org.xinua.example.spring.json" />
+      <recent name="org.xinua.example.spring.json.jackson.config" />
+      <recent name="org.xinua.example.spring.rabbitmq.controller" />
+      <recent name="org.xinua.example.spring.rabbitmq.producer" />
+      <recent name="org.xinua.example.spring.rabbitmq.consumer" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\github\example-main\example-spring\example-spring-exception\src\main\resources\i18n" />
+      <recent name="D:\github\example-main\example-spring\example-spring-exception\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.BubbleSort">
+    <configuration name="BubbleSort" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.xinua.example.algorithms.sort.BubbleSort" />
+      <module name="example-algorithms" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.xinua.example.algorithms.sort.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
+    <configuration name="ExampleApplication (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.xinua.example.spring.rabbitmq.ExampleApplication" />
+      <module name="example-spring-rabbitmq" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.xinua.example.spring.rabbitmq.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
+    <configuration name="ExampleApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.xinua.example.spring.rest.template.ExampleApplication" />
+      <module name="example-spring-rest-template" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.xinua.example.spring.rest.template.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
+    <configuration name="TestController" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.xinua.example.spring.aspect.logger.controller.TestController" />
+      <module name="example-spring-aspect" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.xinua.example.spring.aspect.logger.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <patterns />
+    </configuration>
+    <configuration name="ExampleApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="example-spring-exception" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.xinua.example.spring.exception.ExampleApplication" />
+    </configuration>
+    <configuration name="ExampleApplication (2)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="example-spring-lock" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.xinua.example.spring.lock.ExampleApplication" />
+    </configuration>
+    <configuration name="ExampleApplication (3)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="example-spring-rest-template" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.xinua.example.spring.rest.template.ExampleApplication" />
+    </configuration>
+    <configuration name="ExampleApplication (4)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="example-spring-mvc" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.xinua.example.spring.mvc.ExampleApplication" />
+    </configuration>
+    <configuration name="ExampleApplication (5)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="example-spring-aspect" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.xinua.example.spring.aspect.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.xinua.example.spring.aspect.ExampleApplication" />
+    </configuration>
+    <configuration name="ExampleApplication (6)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="example-spring-rabbitmq" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.xinua.example.spring.rabbitmq.ExampleApplication" />
+    </configuration>
+    <configuration name="ExampleApplication (7)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="example-spring-json" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.xinua.example.spring.json.ExampleApplication" />
+    </configuration>
+    <configuration name="ExampleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="example-spring-cache-redis" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="org.xinua.example.spring.cache.redis.ExampleApplication" />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <properties />
+      <listeners />
+    </configuration>
+    <list>
+      <item itemvalue="Spring Boot.ExampleApplication" />
+      <item itemvalue="Spring Boot.ExampleApplication (1)" />
+      <item itemvalue="Spring Boot.ExampleApplication (3)" />
+      <item itemvalue="Spring Boot.ExampleApplication (4)" />
+      <item itemvalue="Spring Boot.ExampleApplication (2)" />
+      <item itemvalue="Spring Boot.ExampleApplication (6)" />
+      <item itemvalue="Application.ExampleApplication" />
+      <item itemvalue="Spring Boot.ExampleApplication (5)" />
+      <item itemvalue="Application.TestController" />
+      <item itemvalue="Application.ExampleApplication (1)" />
+      <item itemvalue="Spring Boot.ExampleApplication (7)" />
+      <item itemvalue="Application.BubbleSort" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.BubbleSort" />
+        <item itemvalue="Application.ExampleApplication (1)" />
+        <item itemvalue="Spring Boot.ExampleApplication (5)" />
+        <item itemvalue="Application.TestController" />
+        <item itemvalue="Application.ExampleApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c6054450-1060-4123-a8f4-e2d90470c637" name="Default" comment="" />
+      <created>1618936336290</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1618936336290</updated>
+      <workItem from="1618936339409" duration="57782000" />
+      <workItem from="1619070008687" duration="3500000" />
+      <workItem from="1619075779808" duration="15488000" />
+      <workItem from="1619092924645" duration="22036000" />
+      <workItem from="1619152833485" duration="3467000" />
+      <workItem from="1619159735260" duration="26782000" />
+      <workItem from="1619252393536" duration="7095000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Tests_test_(1) - 2021.04.21 at 23h 28m 12s.xml">
+      <configuration name="Tests.test (1)" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="Tests_test_(1) - 2021.04.22 at 00h 03m 05s.xml">
+      <configuration name="Tests.test (1)" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="Tests_test_(1) - 2021.04.22 at 00h 13m 04s.xml">
+      <configuration name="Tests.test (1)" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="Tests_test_(1) - 2021.04.22 at 00h 14m 02s.xml">
+      <configuration name="Tests.test (1)" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="Tests_test_(1) - 2021.04.22 at 00h 18m 44s.xml">
+      <configuration name="Tests.test (1)" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="Tests_test_(1) - 2021.04.22 at 00h 34m 21s.xml">
+      <configuration name="Tests.test (1)" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="Tests_test_(1) - 2021.04.22 at 00h 34m 58s.xml">
+      <configuration name="Tests.test (1)" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="Tests_test_(1) - 2021.04.22 at 01h 15m 36s.xml">
+      <configuration name="Tests.test (1)" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="Tests_test_(1) - 2021.04.22 at 01h 16m 10s.xml">
+      <configuration name="Tests.test (1)" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="Tests_test_(1) - 2021.04.22 at 01h 16m 43s.xml">
+      <configuration name="Tests.test (1)" configurationId="JUnit" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="136150000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1066" extended-state="7" />
+    <layout>
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.26385927" side_tool="true" visible="true" weight="0.27909482" />
+      <window_info anchor="right" id="Maven Projects" order="3" weight="0.123667374" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info id="Designer" order="2" />
+      <window_info anchor="bottom" id="Statistic" order="7" />
+      <window_info anchor="right" id="Database" order="3" />
+      <window_info id="Structure" order="1" sideWeight="0.20179372" side_tool="true" visible="true" weight="0.14658849" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="UI Designer" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.8523454" weight="0.11961207" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.49093816" weight="0.43534482" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="bottom" id="Java Enterprise" order="7" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7361407" visible="true" weight="0.27909482" />
+      <window_info anchor="bottom" id="Spring" order="7" sideWeight="0.4989339" weight="0.1961207" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.8123667" weight="0.11530172" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.79820627" visible="true" weight="0.14658849" />
+      <window_info anchor="right" id="Bean Validation" order="3" />
+      <window_info id="Web" order="2" side_tool="true" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" visible="true" weight="0.13965885" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49733475" weight="0.3297414" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="8" />
+    </breakpoint-manager>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rest-template/src/main/resources/logback-spring.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-json/src/main/java/org/xinua/example/json/jackson/config/ObjectMapperConfig.java" />
+    <entry file="file://$PROJECT_DIR$/example-json/src/main/resources/application.yml" />
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rest-template/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rest-template/src/main/java/org/xinua/example/spring/rest/template/config/RestTemplateConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="73" column="72" selection-start-line="73" selection-start-column="44" selection-end-line="73" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rest-template/src/main/java/org/xinua/example/spring/rest/template/controller/ClientController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2652">
+          <caret line="34" column="13" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rest-template/src/main/java/org/xinua/example/spring/rest/template/controller/ServerController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3196">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-mvc/pom.xml">
+      <provider editor-type-id="MavenHelperPluginDependencyAnalyzer" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-json/pom.xml">
+      <provider editor-type-id="MavenHelperPluginDependencyAnalyzer" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-jpa/pom.xml">
+      <provider editor-type-id="MavenHelperPluginDependencyAnalyzer" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-json/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://D:/develop/Java/jdk1.8.0_171/jre/lib/rt.jar!/com/sun/xml/internal/ws/developer/SerializationFeature.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-json/src/main/java/org/xinua/example/spring/json/jackson/config/ObjectMapperConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="19" column="9" selection-start-line="19" selection-start-column="9" selection-end-line="19" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-json/src/main/java/org/xinua/example/spring/json/ExampleApplication.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="23" selection-start-line="9" selection-start-column="23" selection-end-line="9" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/amqp/spring-amqp/2.0.12.RELEASE/spring-amqp-2.0.12.RELEASE-sources.jar!/org/springframework/amqp/support/converter/Jackson2JsonMessageConverter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="918">
+          <caret line="83" column="11" selection-start-line="83" selection-start-column="11" selection-end-line="83" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/amqp/spring-amqp/2.0.12.RELEASE/spring-amqp-2.0.12.RELEASE-sources.jar!/org/springframework/amqp/core/MessageProperties.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="35" column="13" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/amqp/spring-amqp/2.0.12.RELEASE/spring-amqp-2.0.12.RELEASE-sources.jar!/org/springframework/amqp/core/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="239">
+          <caret line="79" column="21" lean-forward="true" selection-start-line="79" selection-start-column="21" selection-end-line="79" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/controller/DirectController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/controller/FanoutController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/controller/TopicController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/model/MsgBody.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/producer/DirectProducer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="41" selection-start-line="12" selection-start-column="27" selection-end-line="12" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/producer/FanoutProducer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/producer/TopicProducer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-aspect/src/main/java/org/xinua/example/spring/aspect/ExampleApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/config/RabbitMQConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="18" column="5" selection-start-line="18" selection-start-column="5" selection-end-line="18" selection-end-column="5" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/config/TopicConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/consumer/TopicConsumer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/consumer/FanoutConsumer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/consumer/DirectConsumer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="561">
+          <caret line="33" column="62" selection-start-line="33" selection-start-column="62" selection-end-line="33" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-datastruct/pom.xml">
+      <provider editor-type-id="MavenHelperPluginDependencyAnalyzer" />
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-algorithms/pom.xml">
+      <provider editor-type-id="MavenHelperPluginDependencyAnalyzer" />
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-datastruct/src/main/java/org/xinua/example/datastruct/heap/Heap.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+          <folding>
+            <element signature="e#391#392#0" expanded="true" />
+            <element signature="e#435#436#0" expanded="true" />
+            <element signature="e#472#473#0" expanded="true" />
+            <element signature="e#512#513#0" expanded="true" />
+            <element signature="e#557#558#0" expanded="true" />
+            <element signature="e#607#608#0" expanded="true" />
+            <element signature="e#1004#1005#0" expanded="true" />
+            <element signature="e#1037#1038#0" expanded="true" />
+            <element signature="e#1473#1474#0" expanded="true" />
+            <element signature="e#1526#1527#0" expanded="true" />
+            <element signature="e#2046#2047#0" expanded="true" />
+            <element signature="e#2073#2074#0" expanded="true" />
+            <element signature="e#2103#2104#0" expanded="true" />
+            <element signature="e#2135#2136#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/develop/Java/jdk1.8.0_171/src.zip!/java/lang/Comparable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="742">
+          <caret line="135" column="15" selection-start-line="135" selection-start-column="15" selection-end-line="135" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/develop/Java/jdk1.8.0_171/src.zip!/java/util/Comparator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="108" column="17" selection-start-line="108" selection-start-column="17" selection-end-line="108" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/BubbleSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="39" lean-forward="true" selection-start-line="9" selection-start-column="39" selection-end-line="9" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/BucketSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/CountSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="27" selection-start-line="7" selection-start-column="23" selection-end-line="7" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/HeapSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="40" selection-start-line="7" selection-start-column="40" selection-end-line="7" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/InsertSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="11" column="59" selection-start-line="11" selection-start-column="59" selection-end-line="11" selection-end-column="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/MergeSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="466">
+          <caret line="48" column="30" selection-start-line="48" selection-start-column="30" selection-end-line="48" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/QuickSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="14" column="33" selection-start-line="14" selection-start-column="24" selection-end-line="14" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/RadixSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/SelectSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" column="54" selection-start-line="29" selection-start-column="54" selection-end-line="29" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/Sort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="275" lean-forward="true" selection-start-line="275" selection-end-line="275" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-algorithms/src/main/java/org/xinua/example/algorithms/sort/ShellSort.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="1" selection-start-line="23" selection-start-column="1" selection-end-line="23" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-datastruct/src/main/java/org/xinua/example/datastruct/tree/AVL.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="902">
+          <caret line="505" column="40" selection-start-line="505" selection-start-column="40" selection-end-line="505" selection-end-column="40" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-log4j/pom.xml">
+      <provider editor-type-id="MavenHelperPluginDependencyAnalyzer" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="10" lean-forward="true" selection-start-line="14" selection-start-column="10" selection-end-line="14" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/config/DirectConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="16" column="71" lean-forward="true" selection-start-line="16" selection-start-column="71" selection-end-line="16" selection-end-column="71" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/example-spring/example-spring-rabbitmq/src/main/java/org/xinua/example/spring/rabbitmq/config/FanoutConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="31" column="5" lean-forward="true" selection-start-line="31" selection-start-column="5" selection-end-line="31" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Spring</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>example-spring-cache-redis|example-spring and modules</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.24938875" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: antlr:antlr:2.7.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

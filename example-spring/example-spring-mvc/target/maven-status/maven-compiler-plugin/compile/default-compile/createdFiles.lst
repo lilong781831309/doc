@@ -1,0 +1,16 @@
+org\xinua\example\spring\mvc\model\vo\SimpleUserVo.class
+org\xinua\example\spring\mvc\service\impl\UserServiceImpl.class
+org\xinua\example\spring\mvc\model\dto\Update.class
+org\xinua\example\spring\mvc\util\ResultUtil.class
+org\xinua\example\spring\mvc\model\dto\UserDto.class
+org\xinua\example\spring\mvc\model\vo\PageVo.class
+org\xinua\example\spring\mvc\repository\UserRepository.class
+org\xinua\example\spring\mvc\model\vo\UserVo.class
+org\xinua\example\spring\mvc\util\ResultEntity.class
+org\xinua\example\spring\mvc\service\UserService.class
+org\xinua\example\spring\mvc\util\JacksonUtil.class
+org\xinua\example\spring\mvc\ExampleApplication.class
+org\xinua\example\spring\mvc\model\dto\Add.class
+org\xinua\example\spring\mvc\controller\UserController.class
+org\xinua\example\spring\mvc\model\po\User.class
+org\xinua\example\spring\mvc\util\StringUtil.class

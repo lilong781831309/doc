@@ -1,0 +1,55 @@
+spring:
+  application:
+    name: example-spring-cache-redis
+
+  cache:
+    type: redis
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: UTC
+
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 1
+    timeout: 60000ms
+    redis:
+      pool:
+        # 连接池最大连接数（使用负值表示没有限制）
+        max-active: 9
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+        # 连接池中的最大空闲连接
+        max-idle: 9
+        # 连接池中的最小空闲连接
+        min-idle: 1
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/example?useUnicode=true&useSSL=true&characterEncoding=utf8&serverTimezone=UTC
+    username: example
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database: MYSQL
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc.time_zone: UTC
+        dialect: org.hibernate.dialect.MySQL55Dialect
+    #解决驼峰命名自动转为_导致字段找不到的问题
+    hibernate:
+      naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: update
+
+app:
+  cache:
+    prefix: module_name:cache
+    default-ttl: 300
+    custom-ttls:
+      user_id: 400
+      user_username: 500
+      user_page: 600
+      user_all: 700
