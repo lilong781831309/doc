@@ -20,6 +20,7 @@
         <module>example-datastruct</module>
         <module>example-algorithms</module>
         <module>example-log4j</module>
+        <module>example-google</module>
     </modules>
 
     <dependencies>
