@@ -21,6 +21,7 @@
         <module>example-algorithms</module>
         <module>example-log4j</module>
         <module>example-google</module>
+        <module>example-flume</module>
     </modules>
 
     <dependencies>
