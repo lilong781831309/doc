@@ -4,7 +4,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.xinua.example.spring.exception.ExampleApplication;
+import org.xinhua.example.spring.exception.ExampleApplication;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ExampleApplication.class)

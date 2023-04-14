@@ -3,8 +3,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.xinua.example.spring.cache.redis.ExampleApplication;
-import org.xinua.example.spring.cache.redis.config.CacheConfig;
+import org.xinhua.example.spring.cache.redis.ExampleApplication;
+import org.xinhua.example.spring.cache.redis.config.CacheConfig;
 
 import java.util.Map;
 

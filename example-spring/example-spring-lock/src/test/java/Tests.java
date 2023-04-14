@@ -3,10 +3,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.xinua.example.spring.lock.ExampleApplication;
-import org.xinua.example.spring.lock.config.LockRegistryConfig;
-import org.xinua.example.spring.lock.service.AccessToken;
-import org.xinua.example.spring.lock.service.TokenService;
+import org.xinhua.example.spring.lock.ExampleApplication;
+import org.xinhua.example.spring.lock.config.LockRegistryConfig;
+import org.xinhua.example.spring.lock.service.AccessToken;
+import org.xinhua.example.spring.lock.service.TokenService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ExampleApplication.class)
