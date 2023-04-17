@@ -33,11 +33,37 @@ public class AVL<E> extends BST<E> {
             size = 1;
             return;
         }
-        AVLNode<E> parent = (AVLNode) findInsertParent(e);
-        if (parent == null) return;
-        AVLNode node = new AVLNode(parent, e);
+        AVLNode<E> p = (AVLNode)root;
+        AVLNode<E> parent = null;
+        int cmp = 0;
+        if (comparator != null) {
+            while (p != null) {
+                parent = p;
+                cmp = comparator.compare(e, p.e);
+                if (cmp < 0) {
+                    p =(AVLNode) p.left;
+                } else if (cmp > 0) {
+                    p = (AVLNode)p.right;
+                } else {
+                    return;
+                }
+            }
+        } else {
+            while (p != null) {
+                parent = p;
+                cmp = ((Comparable) e).compareTo(p.e);
+                if (cmp < 0) {
+                    p = (AVLNode)p.left;
+                } else if (cmp > 0) {
+                    p = (AVLNode)p.right;
+                } else {
+                    return;
+                }
+            }
+        }
 
-        if (compare(e, parent.e) < 0) {
+        AVLNode node = new AVLNode(parent, e);
+        if (cmp < 0) {
             parent.left = node;
         } else {
             parent.right = node;
@@ -293,7 +319,7 @@ public class AVL<E> extends BST<E> {
         return p;
     }
 
-    static class AVLNode<E> extends BSTNode<E> {
+    protected static class AVLNode<E> extends BSTNode<E> {
         int bf = EH;    //平衡因子，只能为1或0或-1
 
         public AVLNode() {

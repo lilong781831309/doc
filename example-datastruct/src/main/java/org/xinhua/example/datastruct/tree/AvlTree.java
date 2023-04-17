@@ -5,7 +5,7 @@ import java.util.Comparator;
 /**
  * @Author: lilong
  * @createDate: 2023/4/14 20:05
- * @Description: 平衡二叉树      利用平衡因子实现
+ * @Description: 平衡二叉树      利用高度实现
  * @Version: 1.0
  */
 public class AvlTree<E> extends BST<E> {
@@ -29,16 +29,43 @@ public class AvlTree<E> extends BST<E> {
             return;
         }
 
-        AvlNode<E> parent = (AvlNode) findInsertParent(e);
-        if (parent == null) return;
+        AvlNode<E> p = (AvlNode) root;
+        AvlNode<E> parent = null;
+        int cmp = 0;
+        if (comparator != null) {
+            while (p != null) {
+                parent = p;
+                cmp = comparator.compare(e, p.e);
+                if (cmp < 0) {
+                    p = (AvlNode) p.left;
+                } else if (cmp > 0) {
+                    p = (AvlNode) p.right;
+                } else {
+                    return;
+                }
+            }
+        } else {
+            while (p != null) {
+                parent = p;
+                cmp = ((Comparable) e).compareTo(p.e);
+                if (cmp < 0) {
+                    p = (AvlNode) p.left;
+                } else if (cmp > 0) {
+                    p = (AvlNode) p.right;
+                } else {
+                    return;
+                }
+            }
+        }
+
         AvlNode<E> node = new AvlNode<>(parent, e);
 
-        if (compare(e, parent.e) < 0) {
+        if (cmp < 0) {
             parent.left = node;
         } else {
             parent.right = node;
         }
-        balanceAfterAdd((AvlNode) node.parent);
+        rebalance((AvlNode) node.parent);
         size++;
     }
 
@@ -59,11 +86,11 @@ public class AvlTree<E> extends BST<E> {
         } else {
             transplant(node, (AvlNode) node.left);
         }
-        balanceAfterDelete(parent);
+        rebalance(parent);
         size--;
     }
 
-    private void balanceAfterAdd(AvlNode<E> p) {
+    private void rebalance(AvlNode<E> p) {
         while (p != null) {
             int oldHight = p.hight;
             int bf = getBalanceFactor(p);
@@ -79,22 +106,18 @@ public class AvlTree<E> extends BST<E> {
         }
     }
 
-    private void balanceAfterDelete(AvlNode<E> p) {
-        balanceAfterAdd(p);
-    }
-
     private AvlNode<E> balanceLeft(AvlNode<E> p) {
         if (getBalanceFactor((AvlNode) p.left) == -1) {
-            rotateLeft((AvlNode) p.left);
+            avlRotateLeft((AvlNode) p.left);
         }
-        return rotateRight(p);
+        return avlRotateRight(p);
     }
 
     private AvlNode<E> balanceRight(AvlNode<E> p) {
         if (getBalanceFactor((AvlNode) p.right) == 1) {
-            rotateRight((AvlNode) p.right);
+            avlRotateRight((AvlNode) p.right);
         }
-        return rotateLeft(p);
+        return avlRotateLeft(p);
     }
 
     private int getBalanceFactor(AvlNode<E> p) {
@@ -115,28 +138,24 @@ public class AvlTree<E> extends BST<E> {
         p.hight = lh > rh ? lh + 1 : rh + 1;
     }
 
-    @Override
-    protected AvlNode<E> rotateLeft(BSTNode<E> node) {
-        AvlNode<E> p = (AvlNode) node;
+    protected AvlNode<E> avlRotateLeft(AvlNode<E> p) {
         AvlNode<E> r = (AvlNode) p.right;
-        super.rotateLeft(node);
+        super.rotateLeft(p);
         updateHight(p);
         updateHight(r);
         return r;
     }
 
-    @Override
-    protected AvlNode<E> rotateRight(BSTNode<E> node) {
-        AvlNode<E> p = (AvlNode) node;
+    protected AvlNode<E> avlRotateRight(AvlNode<E> p) {
         AvlNode<E> l = (AvlNode) p.left;
-        super.rotateRight(node);
+        super.rotateRight(p);
         updateHight(p);
         updateHight(l);
         return l;
     }
 
 
-    static class AvlNode<E> extends BSTNode<E> {
+    protected static class AvlNode<E> extends BSTNode<E> {
         int hight = 1;
 
         public AvlNode() {

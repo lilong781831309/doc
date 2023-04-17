@@ -8,29 +8,65 @@ import java.util.Comparator;
  * @Description: 二叉搜索树    Node节点不带parent指针
  * @Version: 1.0
  */
-public class BsTree<E> extends AbstractBST<E> {
+public class BsTree<E> {
+
+    protected final Comparator<? super E> comparator;
+    protected Node<E> root;
+    protected int size;
 
     public BsTree() {
-        super();
+        comparator = null;
     }
 
     public BsTree(Comparator<? super E> comparator) {
-        super(comparator);
+        this.comparator = comparator;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public int size() {
+        return size;
     }
 
     /**
      * 插入结点
      */
-    @Override
     public void add(E e) {
         if (root == null) {
             root = new Node<>(e);
             size = 1;
             return;
         }
-        Node<E> parent = findInsertParent(e);
-        if (parent == null) return;
-        if (compare(e, parent.e) < 0) {
+        Node<E> p = root, parent = null;
+        int cmp = 0;
+        if (comparator != null) {
+            while (p != null) {
+                parent = p;
+                cmp = comparator.compare(e, p.e);
+                if (cmp < 0) {
+                    p = p.left;
+                } else if (cmp > 0) {
+                    p = p.right;
+                } else {
+                    return;
+                }
+            }
+        } else {
+            while (p != null) {
+                parent = p;
+                cmp = ((Comparable) e).compareTo(p.e);
+                if (cmp < 0) {
+                    p = p.left;
+                } else if (cmp > 0) {
+                    p = p.right;
+                } else {
+                    return;
+                }
+            }
+        }
+        if (cmp < 0) {
             parent.left = new Node<>(e);
         } else {
             parent.right = new Node<>(e);
@@ -41,7 +77,6 @@ public class BsTree<E> extends AbstractBST<E> {
     /**
      * 删除指定结点
      */
-    @Override
     public void remove(E e) {
         if (root == null) {
             return;
@@ -117,6 +152,161 @@ public class BsTree<E> extends AbstractBST<E> {
         size--;
     }
 
+
+    /**
+     * 最小值
+     */
+    public E min() {
+        return root == null ? null : min(root).e;
+    }
+
+    /**
+     * 最大值
+     */
+    public E max() {
+        return root == null ? null : max(root).e;
+    }
+
+    /**
+     * 最小节点
+     */
+    protected Node<E> min(Node<E> p) {
+        if (p == null) {
+            return null;
+        }
+        while (p.left != null) {
+            p = p.left;
+        }
+        return p;
+    }
+
+    /**
+     * 最大节点
+     */
+    protected Node<E> max(Node<E> p) {
+        if (p == null) {
+            return null;
+        }
+        while (p.right != null) {
+            p = p.right;
+        }
+        return p;
+    }
+
+    /**
+     * 前驱节点
+     */
+    protected Node<E> predecessor(Node<E> p) {
+        if (p == null) {
+            return null;
+        }
+        if (p.left != null) {
+            return max(p.left);
+        }
+
+        Node<E> predecessor = null;
+        E e = p.e;
+        p = root;
+        if (comparator != null) {
+            int c = comparator.compare(p.e, e);
+            while (c != 0) {
+                while (c > 0) {
+                    p = p.left;
+                    if (p == null) {
+                        return predecessor;
+                    }
+                    c = comparator.compare(p.e, e);
+                }
+                while (c < 0) {
+                    predecessor = p;
+                    p = p.right;
+                    if (p == null) {
+                        return predecessor;
+                    }
+                    c = comparator.compare(p.e, e);
+                }
+            }
+        } else {
+            int c = ((Comparable) p.e).compareTo((Comparable) e);
+            while (c != 0) {
+                while (c > 0) {
+                    p = p.left;
+                    if (p == null) {
+                        return predecessor;
+                    }
+                    c = ((Comparable) p.e).compareTo((Comparable) e);
+                }
+                while (c < 0) {
+                    predecessor = p;
+                    p = p.right;
+                    if (p == null) {
+                        return predecessor;
+                    }
+                    c = ((Comparable) p.e).compareTo((Comparable) e);
+                }
+            }
+        }
+
+        return predecessor;
+    }
+
+    /**
+     * 后继节点
+     */
+    protected Node<E> successor(Node<E> p) {
+        if (p == null) {
+            return null;
+        }
+        if (p.right != null) {
+            return min(p.right);
+        }
+
+        Node<E> successor = null;
+        E e = p.e;
+        p = root;
+        if (comparator != null) {
+            int c = comparator.compare(p.e, e);
+            while (c != 0) {
+                while (c < 0) {
+                    p = p.right;
+                    if (p == null) {
+                        return successor;
+                    }
+                    c = comparator.compare(p.e, e);
+                }
+                while (c > 0) {
+                    successor = p;
+                    p = p.left;
+                    if (p == null) {
+                        return successor;
+                    }
+                    c = comparator.compare(p.e, e);
+                }
+            }
+        } else {
+            int c = ((Comparable) p.e).compareTo((Comparable) e);
+            while (c != 0) {
+                while (c < 0) {
+                    p = p.right;
+                    if (p == null) {
+                        return successor;
+                    }
+                    c = ((Comparable) p.e).compareTo((Comparable) e);
+                }
+                while (c > 0) {
+                    successor = p;
+                    p = p.left;
+                    if (p == null) {
+                        return successor;
+                    }
+                    c = ((Comparable) p.e).compareTo((Comparable) e);
+                }
+            }
+        }
+
+        return successor;
+    }
+
     /**
      * 用一棵以v为根的子树来替换一棵以u为根的子树时,结点u的父节点就变为结点v的父节点,并且最后v成为u的父节点的相应孩子
      * p为u的父节点
@@ -129,6 +319,21 @@ public class BsTree<E> extends AbstractBST<E> {
         } else {
             p.right = v;
         }
+    }
+
+
+    protected static class Node<E> {
+        protected Node left, right;
+        protected E e;
+
+        public Node() {
+        }
+
+        public Node(E e) {
+            this.e = e;
+        }
+
+
     }
 
 }
