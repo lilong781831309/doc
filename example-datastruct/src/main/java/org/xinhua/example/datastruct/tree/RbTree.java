@@ -8,15 +8,15 @@ import java.util.Comparator;
  * @Description: 红黑树
  * @Version: 1.0
  */
-public class RBT<E> extends BST<E> {
+public class RbTree<E> extends BsTree<E> {
 
     private static final boolean RED = false;
     private static final boolean BLACK = true;
 
-    public RBT() {
+    public RbTree() {
     }
 
-    public RBT(Comparator<? super E> comparator) {
+    public RbTree(Comparator<? super E> comparator) {
         super(comparator);
     }
 
@@ -28,7 +28,6 @@ public class RBT<E> extends BST<E> {
             size = 1;
             return;
         }
-
 
         RBTNode<E> p = (RBTNode) root;
         RBTNode<E> parent = null;
@@ -163,47 +162,44 @@ public class RBT<E> extends BST<E> {
      *******************************************************************************************************************
      */
     private void fixupAfterAdd(RBTNode<E> p) {
-        RBTNode parent = (RBTNode) p.parent;
-        RBTNode uncle = null;
-        RBTNode grand = null;
-        while (isRed(parent)) {
+        RBTNode<E> parent = null;
+        RBTNode<E> uncle = null;
+        RBTNode<E> grand = null;
+        while (isRed((RBTNode) p.parent)) {
+            parent = (RBTNode) p.parent;
             grand = (RBTNode) parent.parent;
-            uncle = getSibling(parent);
-            //父节点和叔叔节点都是红色,则祖父节点为黑色,将父节点和叔叔节点变黑,祖父节点变红,从祖父节点开始往上重复
+            uncle = (RBTNode) (parent == grand.left ? grand.right : grand.left);
             if (isRed(uncle)) {
-                setRed(grand);
                 setBlack(parent);
                 setBlack(uncle);
+                setRed(grand);
                 p = grand;
-                parent = (RBTNode) p.parent;
-            } else {
-                if (parent == grand.left) {
-                    if (p == parent.left) {
-                        setRed(grand);
-                        setBlack(parent);
-                        rotateRight(grand);
-                    } else {
-                        setRed(grand);
-                        setBlack(p);
-                        rotateLeft(parent);
-                        rotateRight(grand);
-                    }
+            } else if (parent == grand.left) {
+                if (p == parent.left) {
+                    setBlack(parent);
+                    setRed(grand);
+                    rotateRight(grand);
                 } else {
-                    if (p == parent.right) {
-                        setRed(grand);
-                        setBlack(parent);
-                        rotateLeft(grand);
-                    } else {
-                        setBlack(p);
-                        setRed(grand);
-                        rotateRight(parent);
-                        rotateLeft(grand);
-                    }
+                    setBlack(p);
+                    setRed(grand);
+                    rotateLeft(parent);
+                    rotateRight(grand);
+                }
+                break;
+            } else {
+                if (p == parent.left) {
+                    setBlack(p);
+                    setRed(grand);
+                    rotateRight(parent);
+                    rotateLeft(grand);
+                } else {
+                    setBlack(parent);
+                    setRed(grand);
+                    rotateLeft(grand);
                 }
                 break;
             }
         }
-
         setBlack((RBTNode) root);
     }
 
@@ -282,81 +278,72 @@ public class RBT<E> extends BST<E> {
      *******************************************************************************************************************
      */
     private void fixupAfterRemove(RBTNode<E> remove, RBTNode<E> replace) {
-        RBTNode parent = (RBTNode) remove.parent;
-        if (parent == null || isRed(remove)) return;
+        if (isRed(remove)) {
+            return;
+        }
         if (isRed(replace)) {
             setBlack(replace);
             return;
         }
-        RBTNode p = remove;
-        RBTNode sibling = getSibling(p);
-        while (p != root) {
-            if (isRed(sibling)) {
-                if (sibling == parent.left) {
-                    rotateRight(parent);
-                } else {
+
+        RBTNode<E> p = replace != null ? replace : remove;
+        RBTNode<E> parent = (RBTNode) p.parent;
+        RBTNode<E> sibling = null;
+
+        while (parent != null) {
+            if (p == parent.left) {
+                sibling = (RBTNode) parent.right;
+                if (isRed(sibling)) {
+                    setRed(parent);
+                    setBlack(sibling);
                     rotateLeft(parent);
-                }
-                setRed(parent);
-                setBlack(sibling);
-                sibling = getSibling(p);
-            } else if (sibling == parent.left) {
-                if (isRed((RBTNode) sibling.left)) {
-                    RBTNode leftChild = (RBTNode) sibling.left;
-                    rotateRight(parent);
+                    continue;
+                } else if (isRed((RBTNode) sibling.right)) {
                     sibling.color = parent.color;
                     setBlack(parent);
-                    setBlack(leftChild);
+                    setBlack((RBTNode) sibling.right);
+                    rotateLeft(parent);
                     break;
-                } else if (isRed((RBTNode) sibling.right)) {
-                    RBTNode rightChild = (RBTNode) sibling.right;
-                    rotateLeft(sibling);
-                    rotateRight(parent);
-                    rightChild.color = parent.color;
+                } else if (isRed((RBTNode) sibling.left)) {
+                    ((RBTNode) sibling.left).color = parent.color;
                     setBlack(parent);
+                    rotateRight(sibling);
+                    rotateLeft(parent);
                     break;
                 }
             } else {
-                if (isRed((RBTNode) sibling.left)) {
-                    RBTNode leftChild = (RBTNode) sibling.left;
-                    rotateRight(sibling);
-                    rotateLeft(parent);
-                    leftChild.color = parent.color;
-                    setBlack(parent);
-                    break;
-                } else if (isRed((RBTNode) sibling.right)) {
-                    RBTNode rightChild = (RBTNode) sibling.right;
-                    rotateLeft(parent);
+                sibling = (RBTNode) parent.left;
+                if (isRed(sibling)) {
+                    setRed(parent);
+                    setBlack(sibling);
+                    rotateRight(parent);
+                    continue;
+                } else if (isRed((RBTNode) sibling.left)) {
                     sibling.color = parent.color;
                     setBlack(parent);
-                    setBlack(rightChild);
+                    setBlack((RBTNode) sibling.left);
+                    rotateRight(parent);
+                    break;
+                } else if (isRed((RBTNode) sibling.right)) {
+                    ((RBTNode) sibling.right).color = parent.color;
+                    setBlack(parent);
+                    rotateLeft(sibling);
+                    rotateRight(parent);
                     break;
                 }
             }
 
             if (isRed(parent)) {
-                setBlack(parent);
                 setRed(sibling);
+                setBlack(parent);
                 break;
             } else {
                 setRed(sibling);
-                p = parent;
-                sibling = getSibling(p);
+                p = (RBTNode) p.parent;
                 parent = (RBTNode) parent.parent;
             }
         }
         setBlack((RBTNode) root);
-    }
-
-    private RBTNode<E> getSibling(RBTNode<E> p) {
-        if (p == null || p.parent == null) {
-            return null;
-        }
-        if (p != p.parent.left) {
-            return (RBTNode) p.parent.left;
-        } else {
-            return (RBTNode) p.parent.right;
-        }
     }
 
     private boolean isRed(RBTNode<E> p) {
@@ -371,15 +358,11 @@ public class RBT<E> extends BST<E> {
         if (p != null) p.color = BLACK;
     }
 
-    static class RBTNode<E> extends BSTNode<E> {
-        boolean color = RED;
+     static class RBTNode<E> extends BSTNode<E> {
+         boolean color = RED;
 
         public RBTNode() {
             super();
-        }
-
-        public RBTNode(E e) {
-            super(e);
         }
 
         public RBTNode(boolean color, E e) {
