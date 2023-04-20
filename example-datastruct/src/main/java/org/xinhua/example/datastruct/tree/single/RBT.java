@@ -1,4 +1,4 @@
-package org.xinhua.example.datastruct.util;
+package org.xinhua.example.datastruct.tree.single;
 
 import org.xinhua.example.datastruct.collection.ArrayQueue;
 import org.xinhua.example.datastruct.collection.ArrayStack;
@@ -151,7 +151,7 @@ public class RBT<K, V> {
 
         if (e == root) {
             root = replace;
-            fixupAfterDelete(root);
+            setBlack(root);
         } else if (replace == null) {
             fixupAfterDelete(e);
             if (e == e.parent.left) {

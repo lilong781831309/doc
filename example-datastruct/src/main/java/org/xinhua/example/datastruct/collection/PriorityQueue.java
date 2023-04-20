@@ -1,5 +1,6 @@
 package org.xinhua.example.datastruct.collection;
 
+
 import java.util.Comparator;
 
 /**
@@ -10,13 +11,13 @@ import java.util.Comparator;
  */
 public class PriorityQueue<E> implements Queue<E> {
 
-    private static final int DEFAULT_CAPACITY = 16;
+    private static final int DEFAULT_CAPACITY = 10;
     private int size;
-    private Object[] elements;
+    private Object[] elements = {};
     private final Comparator<E> comparator;
 
     public PriorityQueue() {
-        this(DEFAULT_CAPACITY, null);
+        this.comparator = null;
     }
 
     public PriorityQueue(int initCapacity) {
@@ -45,9 +46,7 @@ public class PriorityQueue<E> implements Queue<E> {
 
     @Override
     public boolean offer(E e) {
-        if (size == elements.length) {
-            grow();
-        }
+        ensureCapacity(size + 1);
         elements[size] = e;
         shiftUp(size++);
         return true;
@@ -145,18 +144,34 @@ public class PriorityQueue<E> implements Queue<E> {
         }
     }
 
-    private void grow() {
-        if (size == Integer.MAX_VALUE) {
-            throw new RuntimeException("size 超过最大值 :" + Integer.MAX_VALUE);
+    private void ensureCapacity(int minCapacity) {
+        if (minCapacity > elements.length) {
+            if (size == Integer.MAX_VALUE) {
+                throw new RuntimeException("size 超过最大值 :" + Integer.MAX_VALUE);
+            }
+            grow(minCapacity);
         }
-        int capacity = elements.length + (elements.length >> 1);
-        if (capacity - Integer.MAX_VALUE > 0) {
-            capacity = Integer.MAX_VALUE;
-        }
-        Object[] newElements = new Object[capacity];
+    }
+
+    private void grow(int minCapacity) {
+        int newCapacity = newCapacity(minCapacity);
+        Object[] newElements = new Object[newCapacity];
         for (int i = 0; i < size; i++) {
             newElements[i] = elements[i];
         }
         elements = newElements;
     }
+
+    private int newCapacity(int minCapacity) {
+        int oldCapacity = elements.length;
+        int newCapacity = oldCapacity == 0 ? DEFAULT_CAPACITY : oldCapacity + (oldCapacity >> 1);
+        if (newCapacity - minCapacity < 0) {
+            newCapacity = minCapacity;
+        }
+        if (newCapacity - Integer.MAX_VALUE > 0) {
+            newCapacity = Integer.MAX_VALUE;
+        }
+        return newCapacity;
+    }
+
 }

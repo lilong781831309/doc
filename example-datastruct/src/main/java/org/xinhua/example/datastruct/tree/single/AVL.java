@@ -1,4 +1,4 @@
-package org.xinhua.example.datastruct.util;
+package org.xinhua.example.datastruct.tree.single;
 
 import org.xinhua.example.datastruct.collection.ArrayQueue;
 import org.xinhua.example.datastruct.collection.ArrayStack;

@@ -15,19 +15,17 @@ public class ArrayQueue<E> implements Queue<E> {
     protected static final int DEFAULT_CAPACITY = 16;
 
     public ArrayQueue() {
-        this(DEFAULT_CAPACITY);
     }
 
     public ArrayQueue(int initCapacity) {
-        if (initCapacity <= 0) {
-            initCapacity = DEFAULT_CAPACITY;
+        if (initCapacity > 0) {
+            elements = new Object[initCapacity];
         }
-        elements = new Object[initCapacity];
     }
 
     @Override
     public boolean offer(E e) {
-        if (full() && !newCapacity()) {
+        if (full() && !ensureCapacity(size + 1)) {
             return false;
         }
         elements[tail] = e;
@@ -80,19 +78,19 @@ public class ArrayQueue<E> implements Queue<E> {
         return index == -1 ? modules - 1 : index;
     }
 
-    protected boolean newCapacity() {
-        if (size == Integer.MAX_VALUE) {
-            return false;
+    protected boolean ensureCapacity(int minCapacity) {
+        if (minCapacity > elements.length) {
+            if (size == Integer.MAX_VALUE) {
+                return false;
+            }
+            grow(minCapacity);
         }
+        return true;
+    }
 
-        int capacity = size << 1;
-
-        if (capacity - Integer.MAX_VALUE > 0) {
-            capacity = Integer.MAX_VALUE;
-        }
-
-        Object[] newElements = new Object[capacity];
-
+    protected void grow(int minCapacity) {
+        int newCapacity = newCapacity(minCapacity);
+        Object[] newElements = new Object[newCapacity];
         if (head < tail) {
             for (int i = 0, j = head; i < size; i++) {
                 newElements[i] = elements[j];
@@ -111,8 +109,18 @@ public class ArrayQueue<E> implements Queue<E> {
         elements = newElements;
         head = 0;
         tail = size;
+    }
 
-        return true;
+    protected int newCapacity(int minCapacity) {
+        int oldCapacity = elements.length;
+        int newCapacity = oldCapacity == 0 ? DEFAULT_CAPACITY : oldCapacity + (oldCapacity >> 1);
+        if (newCapacity - minCapacity < 0) {
+            newCapacity = minCapacity;
+        }
+        if (newCapacity - Integer.MAX_VALUE > 0) {
+            newCapacity = Integer.MAX_VALUE;
+        }
+        return newCapacity;
     }
 
 }

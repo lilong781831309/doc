@@ -18,7 +18,7 @@ public class ArrayDeQueue<E> extends ArrayQueue<E> implements Deque<E> {
 
     @Override
     public boolean offerFirst(E e) {
-        if (full() && !newCapacity()) {
+        if (full() && !ensureCapacity(size + 1)) {
             return false;
         }
         head = dec(head, elements.length);
