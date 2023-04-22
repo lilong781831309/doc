@@ -4,257 +4,221 @@ import org.xinhua.example.datastruct.collection.ArrayList;
 import org.xinhua.example.datastruct.collection.List;
 
 import java.util.Comparator;
+import java.util.function.BiConsumer;
 
 /**
  * @Author: lilong
  * @createDate: 2023/4/20 0:29
- * @Description: B树
+ * @Description: B树    Node不含parent指针,递归实现
  * @Version: 1.0
  */
 public class BTree<K, V> {
 
-    private static final int MINIMUM_ORDER = 3;
-    private static final int MAXIMUM_ORDER = 1024;
-    private static final int DEFAULT_ORDER = 256;
+    private static final int MINIMUM_MAX_DEGREE = 3;
+    private static final int DEFAULT_MAX_DEGREE = 512;
+    private final int MAX_KEY_SIZE;
+    private final int MIN_KEY_SIZE;
     private final Comparator<? super K> comparator;
-    private final int order;
-    private int size;
-    private int splitCount;
-    private int mergeCount;
     private Node<K, V> root;
 
     public BTree() {
-        this(DEFAULT_ORDER, null);
+        this(DEFAULT_MAX_DEGREE, null);
     }
 
-    public BTree(int order) {
-        this(order, null);
+    public BTree(int maxDegree) {
+        this(maxDegree, null);
     }
 
     public BTree(Comparator<? super K> comparator) {
-        this(DEFAULT_ORDER, comparator);
+        this(DEFAULT_MAX_DEGREE, comparator);
     }
 
-    public BTree(int order, Comparator<? super K> comparator) {
-        if (order < MINIMUM_ORDER) order = MINIMUM_ORDER;
-        if (order > MAXIMUM_ORDER) order = MAXIMUM_ORDER;
-        this.order = order;
+    public BTree(int maxDegree, Comparator<? super K> comparator) {
+        if (maxDegree < MINIMUM_MAX_DEGREE) {
+            throw new RuntimeException("max degree >= 3");
+        }
+        this.MAX_KEY_SIZE = maxDegree - 1;
+        this.MIN_KEY_SIZE = MAX_KEY_SIZE >>> 1;
         this.comparator = comparator;
     }
 
-    public int size() {
-        return size;
-    }
 
-    public int splitCount() {
-        return splitCount;
-    }
-
-    public int mergeCount() {
-        return mergeCount;
-    }
-
-    public V insert(K k, V v) {
-        if (k == null) {
+    public V insert(K key, V value) {
+        if (key == null) {
             return null;
         }
+
+        V oldValue = null;
         if (root == null) {
-            root = new Node<>(k, v);
-            size = 1;
-            return null;
+            root = new Node<>();
+            root.addEntry(key, value);
+        } else {
+            oldValue = insert(null, root, key, value, 0);
         }
-        return insert(root, k, v);
+        return oldValue;
     }
 
-    private V insert(Node<K, V> node, K k, V v) {
-        int index = binarySearch(node, k);
+    private V insert(Node<K, V> parent, Node<K, V> node, K key, V value, int nodeIdex) {
+        int index = binarySearch(node, key);
         if (index >= 0) {
-            return node.setV(index, v);
+            return node.setValue(index, value);
         }
 
-        V value = null;
         index = -index - 1;
+        V oldValue = null;
 
         if (node.isLeaf) {
-            node.addEntry(index, k, v);
-            size++;
+            node.addEntry(index, new Entry<>(key, value));
         } else {
-            value = insert(node.getChild(index), k, v);
+            oldValue = insert(node, node.getChild(index), key, value, index);
         }
-        if (node.keySize() == order) {
-            split(node);
+
+        if (node.keySize() > MAX_KEY_SIZE) {
+            split(parent, node, nodeIdex);
         }
-        return value;
+        return oldValue;
     }
 
-    private void split(Node<K, V> node) {
-        Node<K, V> parent = node.parent;
-        Node<K, V> left = new Node<>();
-        Node<K, V> right = new Node<>();
-
+    private void split(Node<K, V> parent, Node<K, V> node, int nodeIdex) {
         int keySize = node.keySize();
         int childSize = node.childSize();
         int k = (keySize - 1) >> 1;
 
-        for (int i = 0; i < k; i++) {
-            left.addEntry(node.getEntry(i));
-        }
-        for (int i = k + 1; i < keySize; i++) {
-            right.addEntry(node.getEntry(i));
-        }
-        //if (!node.isLeaf)
-        for (int i = 0; i <= k && i < childSize; i++) {
-            left.addChild(node.getChild(i));
-        }
-        //if (!node.isLeaf)
-        for (int i = k + 1; i < childSize; i++) {
-            right.addChild(node.getChild(i));
-        }
+        Node<K, V> right = new Node<>();
 
         if (parent == null) {
             parent = new Node<>();
             parent.addEntry(node.getEntry(k));
-            parent.addChild(left);
+            parent.addChild(node);
             parent.addChild(right);
             root = parent;
+            root.isLeaf = false;
         } else {
-            int index = parent.indexOfChild(node);
-            parent.addEntry(index, node.getEntry(k));
-            parent.setChild(index, left);
-            parent.addChild(index + 1, right);
+            parent.addEntry(nodeIdex, node.getEntry(k));
+            parent.addChild(nodeIdex + 1, right);
         }
-        parent.isLeaf = false;
-        left.isLeaf = right.isLeaf = node.isLeaf;
-        splitCount++;
+
+        for (int i = k + 1; i < keySize; i++) {
+            right.addEntry(node.getEntry(i));
+        }
+        for (int i = k + 1; i < childSize; i++) {
+            right.addChild(node.getChild(i));
+        }
+
+        right.isLeaf = node.isLeaf;
+        node.removeEntry(k, keySize);
+        node.removeChild(k + 1, childSize);
     }
 
-    public V delete(K k) {
-        if (root == null || k == null) {
+    public V delete(K key) {
+        if (root == null || key == null) {
             return null;
         }
+        return delete(null, root, key, 0);
+    }
 
-        Node<K, V> node = root;
-        int index = binarySearch(node, k);
+    private V delete(Node<K, V> parent, Node<K, V> node, K key, int nodeIndex) {
+        V oldValue = null;
+        int index = binarySearch(node, key);
 
-        while (index < 0 && !node.isLeaf) {
-            node = node.getChild(-index - 1);
-            index = binarySearch(node, k);
-        }
-
-        if (index < 0) {
-            return null;
-        }
-
-        V value = node.getV(index);
-
-        //删除前驱
-        if (!node.isLeaf) {
-            Node<K, V> predecessor = node.getChild(index);
-            int pos = predecessor.keySize();
-            while (!predecessor.isLeaf) {
-                predecessor = predecessor.getChild(pos);
-                pos = predecessor.keySize();
+        if (node.isLeaf) {
+            if (index < 0) {
+                return null;
             }
-            pos--;
-
-            node.setEntry(index, predecessor.getEntry(pos));
-
-            node = predecessor;
-            index = pos;
-        }
-        delete(node, index);
-        return value;
-    }
-
-    private void delete(Node<K, V> node, int index) {
-        if (node == root) {
-            if (root.keySize() == 1) {
-                root = null;
+            oldValue = node.removeEntry(index).value;
+        } else {
+            if (index < 0) {
+                index = -index - 1;
             } else {
-                root.removeEntry(index);
+                Node<K, V> predecessor = node.getChild(index);
+                while (!predecessor.isLeaf) {
+                    predecessor = predecessor.getChild(predecessor.keySize());
+                }
+                Entry<K, V> entry = predecessor.getEntry(predecessor.keySize() - 1);
+                node.setEntry(index, entry);
+                key = entry.key;
+            }
+            oldValue = delete(node, node.getChild(index), key, index);
+        }
+
+        if (node.keySize() < MIN_KEY_SIZE) {
+            fixAfterDelete(parent, node, nodeIndex);
+        }
+
+        return oldValue;
+    }
+
+    private void fixAfterDelete(Node<K, V> parent, Node<K, V> node, int index) {
+        if (parent == null) {
+            return;
+        }
+        if (index > 0 && parent.getChild(index - 1).keySize() > MIN_KEY_SIZE) {
+            Node<K, V> leftSibling = parent.getChild(index - 1);
+            Entry<K, V> leftEntry = leftSibling.removeEntry(leftSibling.keySize() - 1);
+            Entry<K, V> parentEntry = parent.setEntry(index - 1, leftEntry);
+            node.addEntry(0, parentEntry);
+            if (!leftSibling.isLeaf) {
+                node.addChild(0, leftSibling.removeChild(leftSibling.childSize() - 1));
+            }
+        } else if (index < parent.keySize() && parent.getChild(index + 1).keySize() > MIN_KEY_SIZE) {
+            Node<K, V> rightSibling = parent.getChild(index + 1);
+            Entry<K, V> leftEntry = rightSibling.removeEntry(0);
+            Entry<K, V> parentEntry = parent.setEntry(index, leftEntry);
+            node.addEntry(parentEntry);
+            if (!rightSibling.isLeaf) {
+                node.addChild(rightSibling.removeChild(0));
             }
         } else {
-            node.removeEntry(index);
-            int k = order / 2 + order % 2 - 1;
-            while (node != root && node.keySize() < k) {
-                Node<K, V> parent = node.parent;
-                int i = parent.indexOfChild(node);
-                if (i > 0 && parent.getChild(i - 1).keySize() > k) {
-                    Node<K, V> leftSibling = parent.getChild(i - 1);
-                    Entry<K, V> leftEntry = leftSibling.removeEntry(leftSibling.keySize() - 1);
-                    Entry<K, V> parentEntry = parent.setEntry(i - 1, leftEntry);
-                    node.addEntry(0, parentEntry);
-                    if (!leftSibling.isLeaf) {
-                        node.addChild(0, leftSibling.removeChild(leftSibling.childSize() - 1));
-                    }
-                    break;
-                } else if (i < parent.keySize() && parent.getChild(i + 1).keySize() > k) {
-                    Node<K, V> rightSibling = parent.getChild(i + 1);
-                    Entry<K, V> rightEntry = rightSibling.removeEntry(0);
-                    Entry<K, V> parentEntry = parent.setEntry(i, rightEntry);
-                    node.addEntry(parentEntry);
-                    if (!rightSibling.isLeaf) {
-                        node.addChild(rightSibling.removeChild(0));
-                    }
-                    break;
+            int leftIndex = index > 0 ? index - 1 : index;
+            Node<K, V> left = parent.getChild(leftIndex);
+            Node<K, V> right = parent.removeChild(leftIndex + 1);
+
+            left.addEntry(parent.removeEntry(leftIndex));
+
+            int size = right.keySize();
+            for (int i = 0; i < size; i++) {
+                left.addEntry(right.getEntry(i));
+            }
+            size = right.childSize();
+            for (int i = 0; i < size; i++) {
+                left.addChild(right.getChild(i));
+            }
+            if (root.keySize() == 0) {
+                if (root.childSize() > 0) {
+                    root = root.getChild(0);
                 } else {
-                    if (i > 0) {
-                        node = merge(parent.getChild(i - 1), node, i - 1);
-                    } else {
-                        node = merge(node, parent.getChild(i + 1), i);
-                    }
-                    if (node.parent == root && node.parent.keySize() == 0) {
-                        root = node;
-                        node.parent = null;
-                        break;
-                    }
+                    root = null;
                 }
-                node = node.parent;
             }
         }
-        size--;
     }
 
-    private Node<K, V> merge(Node<K, V> left, Node<K, V> right, int parentIndex) {
-        Node<K, V> node = new Node<K, V>();
-        Node<K, V> parent = left.parent;
-
-        parent.removeChild(parentIndex);
-        parent.setChild(parentIndex, node);
-
-        int size = left.keySize();
-        for (int i = 0; i < size; i++) {
-            node.addEntry(left.getEntry(i));
-        }
-
-        node.addEntry(parent.removeEntry(parentIndex));
-
-        size = right.keySize();
-        for (int i = 0; i < size; i++) {
-            node.addEntry(right.getEntry(i));
-        }
-
-        size = left.childSize();
-        for (int i = 0; i < size; i++) {
-            node.addChild(left.getChild(i));
-        }
-
-        size = right.childSize();
-        for (int i = 0; i < size; i++) {
-            node.addChild(right.getChild(i));
-        }
-
-        node.isLeaf = left.isLeaf;
-        mergeCount++;
-        return node;
+    public void inOrder(BiConsumer<K, V> consumer) {
+        if (root == null) return;
+        inOrder(root, consumer);
     }
 
-    private int binarySearch(Node<K, V> node, K k) {
-        int cmp = 0, low = 0, mid = 0, high = node.keySize() - 1;
+    private void inOrder(Node<K, V> node, BiConsumer<K, V> consumer) {
+        int keySize = node.keySize();
+        if (node.isLeaf) {
+            for (int i = 0; i < keySize; i++) {
+                consumer.accept(node.getKey(i), node.getValue(i));
+            }
+        } else {
+            for (int i = 0; i < keySize; i++) {
+                inOrder(node.getChild(i), consumer);
+                consumer.accept(node.getKey(i), node.getValue(i));
+            }
+            inOrder(node.getChild(keySize), consumer);
+        }
+    }
+
+    private int binarySearch(Node<K, V> node, K key) {
+        int cmp, low = 0, mid, high = node.keySize() - 1;
         if (comparator != null) {
             while (low <= high) {
-                mid = (low + high) >>> 1;
-                cmp = comparator.compare(k, node.getK(mid));
+                mid = (low + high) >> 1;
+                cmp = comparator.compare(key, node.getKey(mid));
                 if (cmp < 0) {
                     high = mid - 1;
                 } else if (cmp > 0) {
@@ -265,8 +229,8 @@ public class BTree<K, V> {
             }
         } else {
             while (low <= high) {
-                mid = (low + high) >>> 1;
-                cmp = ((Comparable) k).compareTo((Comparable) node.getK(mid));
+                mid = (low + high) >> 1;
+                cmp = ((Comparable) key).compareTo(((Comparable) node.getKey(mid)));
                 if (cmp < 0) {
                     high = mid - 1;
                 } else if (cmp > 0) {
@@ -282,18 +246,7 @@ public class BTree<K, V> {
     static class Node<K, V> {
         List<Entry<K, V>> entries;
         List<Node<K, V>> childs;
-        Node<K, V> parent;
         boolean isLeaf = true;
-
-        public Node() {
-            entries = new ArrayList<>();
-            childs = new ArrayList<>();
-        }
-
-        public Node(K k, V v) {
-            this();
-            entries.add(new Entry(k, v));
-        }
 
         public int keySize() {
             return entries.size();
@@ -301,6 +254,25 @@ public class BTree<K, V> {
 
         public int childSize() {
             return childs.size();
+        }
+
+        public Node() {
+            this.entries = new ArrayList<>();
+            this.childs = new ArrayList<>();
+        }
+
+        public K getKey(int index) {
+            return entries.get(index).key;
+        }
+
+        public V getValue(int index) {
+            return entries.get(index).value;
+        }
+
+        public V setValue(int index, V value) {
+            V oldValue = entries.get(index).value;
+            entries.get(index).value = value;
+            return oldValue;
         }
 
         public Entry<K, V> getEntry(int index) {
@@ -311,75 +283,61 @@ public class BTree<K, V> {
             return entries.set(index, entry);
         }
 
-        public void addEntry(Entry<K, V> entry) {
-            entries.add(entry);
-        }
-
         public void addEntry(int index, Entry<K, V> entry) {
             entries.add(index, entry);
         }
 
-        public void addEntry(int index, K k, V v) {
-            addEntry(index, new Entry<>(k, v));
+        public void addEntry(Entry<K, V> entry) {
+            entries.add(entry);
+        }
+
+        public void addEntry(K key, V value) {
+            addEntry(new Entry<>(key, value));
         }
 
         public Entry<K, V> removeEntry(int index) {
             return entries.removeAt(index);
         }
 
-        public K getK(int index) {
-            return entries.get(index).k;
-        }
-
-        public V getV(int index) {
-            return entries.get(index).v;
-        }
-
-        public V setV(int index, V v) {
-            Entry<K, V> entry = entries.get(index);
-            V oldV = entry.v;
-            entry.v = v;
-            return oldV;
+        public void removeEntry(int start, int end) {
+            entries.removeBetween(start, end);
         }
 
         public Node<K, V> getChild(int index) {
             return childs.get(index);
         }
 
-        public Node<K, V> setChild(int index, Node<K, V> node) {
-            node.parent = this;
-            return childs.set(index, node);
+        public Node<K, V> setChild(int index, Node<K, V> child) {
+            return childs.set(index, child);
         }
 
-        public void addChild(Node<K, V> node) {
-            node.parent = this;
-            childs.add(node);
+        public void addChild(int index, Node<K, V> child) {
+            childs.add(index, child);
         }
 
-        public void addChild(int index, Node<K, V> node) {
-            node.parent = this;
-            childs.add(index, node);
+        public void addChild(Node<K, V> child) {
+            childs.add(child);
         }
 
         public Node<K, V> removeChild(int index) {
             return childs.removeAt(index);
         }
 
-        public int indexOfChild(Node<K, V> node) {
-            return childs.indexOf(node);
+        public void removeChild(int start, int end) {
+            childs.removeBetween(start, end);
         }
     }
 
     static class Entry<K, V> {
-        K k;
-        V v;
+        K key;
+        V value;
 
         public Entry() {
         }
 
-        public Entry(K k, V v) {
-            this.k = k;
-            this.v = v;
+        public Entry(K key, V value) {
+            this.key = key;
+            this.value = value;
         }
     }
 

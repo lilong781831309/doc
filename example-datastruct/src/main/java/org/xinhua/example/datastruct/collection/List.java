@@ -20,6 +20,8 @@ public interface List<E> {
 
     E removeAt(int index);
 
+    void removeBetween(int start, int end);
+
     int indexOf(E e);
 
     int size();

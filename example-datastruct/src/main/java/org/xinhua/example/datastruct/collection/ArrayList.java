@@ -71,6 +71,27 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
+    public void removeBetween(int start, int end) {
+        int s = start, e = end + 1, c = 0;
+        while (s <= end && e < size) {
+            elements[s] = elements[e];
+            s++;
+            e++;
+        }
+        while (e < size) {
+            elements[s] = elements[e];
+            s++;
+            e++;
+        }
+        while (s < size) {
+            elements[s] = null;
+            s++;
+            c++;
+        }
+        size -= c;
+    }
+
+    @Override
     public int indexOf(E e) {
         for (int i = 0; i < size; i++) {
             if (elements[i].equals(e)) {
