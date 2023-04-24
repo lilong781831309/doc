@@ -16,6 +16,8 @@ public interface List<E> {
 
     void add(int index, E e);
 
+    void addAll(List<E> list);
+
     void remove(E e);
 
     E removeAt(int index);

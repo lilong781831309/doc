@@ -52,6 +52,16 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
+    public void addAll(List<E> list) {
+        int listSize = list.size();
+        ensureCapacity(size + listSize);
+        for (int i = size, j = 0; j < listSize; i++, j++) {
+            elements[i] = list.get(j);
+        }
+        size += listSize;
+    }
+
+    @Override
     public void remove(E e) {
         int index = indexOf(e);
         if (index > 0) {
@@ -104,6 +114,20 @@ public class ArrayList<E> implements List<E> {
     @Override
     public int size() {
         return size;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("[");
+        if (size > 0) {
+            sb.append(elements[0]);
+            if (size > 1) {
+                for (int i = 1; i < size; i++) {
+                    sb.append(",").append(elements[i]);
+                }
+            }
+        }
+        return sb.append("]").toString();
     }
 
     private void ensureCapacity(int minCapacity) {
