@@ -68,12 +68,12 @@ public class BPlus<K extends Comparable<K>, V> {
             return null;
         }
         Node<K, V> node = root;
-        int index = binarySearch(node, key);
+        int index = 0;
         while (node instanceof InnerNode) {
-            index = index < 0 ? -index - 1 : index + 1;
+            index = indexOfChild(node, key);
             node = ((InnerNode) node).getChild(index);
-            index = binarySearch(node, key);
         }
+        index = indexOfKey(node, key);
         return index >= 0 ? ((LeafNode<K, V>) node).getValue(index) : null;
     }
 
@@ -82,24 +82,25 @@ public class BPlus<K extends Comparable<K>, V> {
         if (root == null || minKey == null || maxKey == null || minKey.compareTo(maxKey) > 0) {
             return result;
         }
+        int index = 0;
         Node<K, V> minKeyNode = root;
         Node<K, V> maxKeyNode = root;
-        int minIndex = binarySearch(minKeyNode, minKey);
-        int maxIndex = binarySearch(maxKeyNode, maxKey);
+
         while (minKeyNode instanceof InnerNode) {
-            minIndex = minIndex < 0 ? -minIndex - 1 : minIndex + 1;
-            minKeyNode = ((InnerNode) minKeyNode).getChild(minIndex);
-            minIndex = binarySearch(minKeyNode, minKey);
+            index = indexOfChild(minKeyNode, minKey);
+            minKeyNode = ((InnerNode) minKeyNode).getChild(index);
         }
         while (maxKeyNode instanceof InnerNode) {
-            maxIndex = maxIndex < 0 ? -maxIndex - 1 : maxIndex + 1;
-            maxKeyNode = ((InnerNode) maxKeyNode).getChild(maxIndex);
-            maxIndex = binarySearch(maxKeyNode, maxKey);
+            index = indexOfChild(maxKeyNode, maxKey);
+            maxKeyNode = ((InnerNode) maxKeyNode).getChild(index);
         }
+
         LeafNode<K, V> startNode = (LeafNode<K, V>) minKeyNode;
         LeafNode<K, V> endNode = (LeafNode<K, V>) maxKeyNode;
-        int start = minIndex >= 0 ? minIndex : -minIndex - 1;
-        int end = maxIndex >= 0 ? maxIndex : -maxIndex - 2;
+        int start = indexOfKey(startNode, minKey);
+        int end = indexOfKey(endNode, maxKey);
+        start = start >= 0 ? start : -start - 1;
+        end = end >= 0 ? end : -end - 2;
 
         if (startNode == endNode) {
             for (int i = start; i <= end; i++) {
@@ -111,14 +112,13 @@ public class BPlus<K extends Comparable<K>, V> {
             for (int i = start; i < size; i++) {
                 result.add(startNode.getValue(i));
             }
-        }
-        startNode = startNode.next;
-        while (startNode != endNode) {
-            result.addAll(startNode.values);
-            startNode = startNode.next;
-        }
-        for (int i = 0; i <= end; i++) {
-            result.add(endNode.getValue(i));
+
+            while ((startNode = startNode.next) != endNode) {
+                result.addAll(startNode.values);
+            }
+            for (int i = 0; i <= end; i++) {
+                result.add(endNode.getValue(i));
+            }
         }
         return result;
     }
@@ -137,24 +137,25 @@ public class BPlus<K extends Comparable<K>, V> {
     }
 
     private V insert(InnerNode<K, V> parent, Node<K, V> node, int nodeIndex, K key, V value) {
-        int index = binarySearch(node, key);
+        V oldValue = null;
         if (node instanceof LeafNode) {
             LeafNode<K, V> leafNode = (LeafNode) node;
+            int index = indexOfKey(leafNode, key);
             if (index >= 0) {
-                return leafNode.setValue(index, value);
+                oldValue = leafNode.setValue(index, value);
             } else {
                 leafNode.addKeyValue(-index - 1, key, value);
                 if (leafNode.keySize() > MAX_KEY_SIZE) {
                     splitLeaf(parent, leafNode, nodeIndex);
                 }
-                return null;
             }
-        }
-        index = index < 0 ? -index - 1 : index + 1;
-        InnerNode<K, V> innerNode = (InnerNode<K, V>) node;
-        V oldValue = insert(innerNode, innerNode.getChild(index), index, key, value);
-        if (innerNode.keySize() > MAX_KEY_SIZE) {
-            splitInner(parent, innerNode, nodeIndex);
+        } else {
+            InnerNode<K, V> innerNode = (InnerNode<K, V>) node;
+            int index = indexOfChild(innerNode, key);
+            oldValue = insert(innerNode, innerNode.getChild(index), index, key, value);
+            if (innerNode.keySize() > MAX_KEY_SIZE) {
+                splitInner(parent, innerNode, nodeIndex);
+            }
         }
         return oldValue;
     }
@@ -167,29 +168,37 @@ public class BPlus<K extends Comparable<K>, V> {
     }
 
     private V delete(InnerNode<K, V> parent, Node<K, V> node, int nodeIndex, K key) {
-        int index = binarySearch(node, key);
+        V value = null;
         if (node instanceof LeafNode) {
-            if (index < 0) {
-                return null;
-            } else {
-                LeafNode<K, V> leafNode = (LeafNode) node;
-                V value = leafNode.removeKeyValue(index);
-                if (index == 0 && nodeIndex > 0 && parent != null) {
-                    parent.setKey(nodeIndex - 1, leafNode.getKey(0));
-                }
+            LeafNode<K, V> leafNode = (LeafNode) node;
+            int index = indexOfKey(leafNode, key);
+            if (index >= 0) {
+                value = leafNode.removeKeyValue(index);
                 if (leafNode.keySize() < MIN_KEY_SIZE) {
                     fixLeaf(parent, leafNode, nodeIndex);
                 }
-                return value;
+            }
+        } else {
+            InnerNode<K, V> innerNode = (InnerNode<K, V>) node;
+            int index = indexOfChild(innerNode, key);
+            updateSuccessorKey(innerNode, key);
+            value = delete(innerNode, innerNode.getChild(index), index, key);
+            if (innerNode.keySize() < MIN_KEY_SIZE) {
+                fixInner(parent, innerNode, nodeIndex);
             }
         }
-        index = index < 0 ? -index - 1 : index + 1;
-        InnerNode<K, V> innerNode = (InnerNode<K, V>) node;
-        V value = delete(innerNode, innerNode.getChild(index), index, key);
-        if (innerNode.keySize() < MIN_KEY_SIZE) {
-            fixInner(parent, innerNode, nodeIndex);
-        }
         return value;
+    }
+
+    private void updateSuccessorKey(InnerNode<K, V> innerNode, K deleteKey) {
+        int index = indexOfKey(innerNode, deleteKey);
+        if (index >= 0) {
+            Node<K, V> successor = innerNode.getChild(index + 1);
+            while (successor instanceof InnerNode) {
+                successor = ((InnerNode<K, V>) successor).getChild(0);
+            }
+            innerNode.setKey(index, successor.getKey(1));
+        }
     }
 
     private void fixLeaf(InnerNode<K, V> parent, LeafNode<K, V> leafNode, int nodeIndex) {
@@ -294,7 +303,7 @@ public class BPlus<K extends Comparable<K>, V> {
         left.removeChild(MIN_KEY_SIZE + 1, MAX_KEY_SIZE + 1);
     }
 
-    private int binarySearch(Node<K, V> node, K key) {
+    private int indexOfKey(Node<K, V> node, K key) {
         int cmp, low = 0, mid, high = node.keySize() - 1;
         while (low <= high) {
             mid = (low + high) >>> 1;
@@ -308,6 +317,26 @@ public class BPlus<K extends Comparable<K>, V> {
             }
         }
         return -(low + 1);
+    }
+
+    public int indexOfChild(Node<K, V> node, K key) {
+        int cmp, low = 0, mid, high = node.keySize();
+        if (key.compareTo(node.getKey(low)) < 0) {
+            return low;
+        }
+        if (key.compareTo(node.getKey(high - 1)) > 0) {
+            return high;
+        }
+        while (low < high) {
+            mid = (low + high) >>> 1;
+            cmp = key.compareTo(node.getKey(mid));
+            if (cmp < 0) {
+                high = mid;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return high;
     }
 
     static class Node<K, V> {
