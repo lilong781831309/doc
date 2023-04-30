@@ -10,21 +10,20 @@ import java.util.function.BiConsumer;
  * @Version: 1.0
  */
 public class HashMap<K, V> implements Map<K, V> {
-    private static final boolean RED = false;
-    private static final boolean BLACK = true;
     private static final int DEFAULT_INITIAL_CAPACITY = 1 << 4;
     private static final int MAXIMUM_CAPACITY = 1 << 30;
     private static final float DEFAULT_LOAD_FACTOR = 0.75f;
     private static final int TREEIFY_THRESHOLD = 8;
     private static final int UNTREEIFY_THRESHOLD = 6;
     private static final int MIN_TREEIFY_CAPACITY = 64;
+    private static final int TREE_NODE_HASH = -1;
     private Node<K, V>[] table;
     private int size;
     private int threshold;
     private float loadFactor;
-    private KeySet keySet;
-    private Values values;
-    private EntrySet entrySet;
+    protected KeySet keySet;
+    protected Values values;
+    protected EntrySet entrySet;
 
     public HashMap() {
         this(DEFAULT_INITIAL_CAPACITY, DEFAULT_LOAD_FACTOR);
@@ -44,6 +43,12 @@ public class HashMap<K, V> implements Map<K, V> {
         this.loadFactor = loadFactor;
     }
 
+    private <K> int hash(K k) {
+        if (k == null) return 0;
+        int h = k.hashCode();
+        return h ^ (h >>> 16);
+    }
+
     private int tableSizeFor(int capacity) {
         int n = capacity - 1;
         n |= n >>> 1;
@@ -52,6 +57,16 @@ public class HashMap<K, V> implements Map<K, V> {
         n |= n >>> 8;
         n |= n >>> 16;
         return n > MAXIMUM_CAPACITY ? MAXIMUM_CAPACITY : n + 1;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
     }
 
     private Node<K, V>[] resize() {
@@ -72,13 +87,11 @@ public class HashMap<K, V> implements Map<K, V> {
         Node<K, V>[] newTable = new Node[newCapacity];
 
         for (int i = 0; i < oldCapacity; i++) {
-            Node node = table[i];
+            Node<K, V> node = table[i];
             if (node != null) {
                 table[i] = null;
-                if (node.next == null) {
-                    newTable[node.hash & (newCapacity - 1)] = node;
-                } else if (node instanceof TreeNode) {
-                    splitTree(newTable, (TreeNode) node);
+                if (node.hash == TREE_NODE_HASH) {
+                    splitTree(newTable, (Tree) node);
                 } else {
                     splitList(newTable, node);
                 }
@@ -90,10 +103,10 @@ public class HashMap<K, V> implements Map<K, V> {
         return newTable;
     }
 
-    private void splitList(Node<K, V>[] newTable, Node node) {
+    private void splitList(Node<K, V>[] newTable, Node<K, V> node) {
         int newCapacity = newTable.length;
         int oldCapacity = newCapacity >> 1;
-        Node loHead = null, loTail = null, hiHead = null, hiTail = null;
+        Node<K, V> loHead = null, loTail = null, hiHead = null, hiTail = null;
         while (node != null) {
             if ((node.hash & oldCapacity) == 0) {
                 if (loHead == null) {
@@ -122,8 +135,8 @@ public class HashMap<K, V> implements Map<K, V> {
         }
     }
 
-    private void splitTree(Node<K, V>[] newTable, TreeNode node) {
-        TreeNode loHead = null, loTail = null, hiHead = null, hiTail = null;
+    private void splitTree(Node<K, V>[] newTable, Tree<K, V> tree) {
+        TreeNode<K, V> node = tree.head, loHead = null, loTail = null, hiHead = null, hiTail = null;
         int newCapacity = newTable.length;
         int oldCapacity = newCapacity >> 1;
         int loCount = 0, hiCount = 0;
@@ -147,43 +160,28 @@ public class HashMap<K, V> implements Map<K, V> {
                 }
                 hiCount++;
             }
-            node = (TreeNode) node.next;
+            node = (TreeNode<K, V>) node.next;
         }
         if (loTail != null) {
+            loHead.prev = null;
             loTail.next = null;
-            newTable[loHead.hash & (oldCapacity - 1)] = loHead;
+            int index = loHead.hash & (oldCapacity - 1);
             if (loCount < UNTREEIFY_THRESHOLD) {
-                untreeify(newTable, loHead);
+                newTable[index] = loHead;
             } else {
-                treeify(newTable, loHead);
+                newTable[index] = new Tree(loHead);
             }
         }
         if (hiTail != null) {
+            hiHead.prev = null;
             hiTail.next = null;
-            newTable[hiHead.hash & (newCapacity - 1)] = hiHead;
+            int index = hiHead.hash & (newCapacity - 1);
             if (hiCount < UNTREEIFY_THRESHOLD) {
-                untreeify(newTable, hiHead);
+                newTable[index] = hiHead;
             } else {
-                treeify(newTable, hiHead);
+                newTable[index] = new Tree(hiHead);
             }
         }
-
-    }
-
-    private int hash(K k) {
-        if (k == null) return 0;
-        int h = k.hashCode();
-        return h ^ (h >>> 16);
-    }
-
-    @Override
-    public int size() {
-        return size;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
     }
 
     @Override
@@ -196,8 +194,11 @@ public class HashMap<K, V> implements Map<K, V> {
         if (table == null || table.length == 0) {
             return false;
         }
-        for (Node node : table) {
-            Node e = node;
+        for (Node<K, V> node : table) {
+            Node<K, V> e = node;
+            if (e != null && e instanceof HashMap.Tree) {
+                e = ((Tree<K, V>) e).head;
+            }
             while (e != null) {
                 if (Objects.equals(value, e.value)) {
                     return true;
@@ -222,8 +223,8 @@ public class HashMap<K, V> implements Map<K, V> {
         Node<K, V> e = table[hash & (table.length - 1)];
         if (e == null) {
             return null;
-        } else if (e instanceof TreeNode) {
-            return getTreeNode((TreeNode) e, hash, key);
+        } else if (e instanceof HashMap.Tree) {
+            return ((Tree) e).getTreeNode(hash, key);
         } else {
             while (e != null) {
                 if (hash == e.hash && (key == e.key || key.equals(e.key))) {
@@ -233,27 +234,6 @@ public class HashMap<K, V> implements Map<K, V> {
             }
             return null;
         }
-    }
-
-    private Node<K, V> getTreeNode(TreeNode root, int hash, K key) {
-        TreeNode<K, V> p = root, s;
-        int cmp;
-        while (p != null) {
-            if (hash < p.hash) {
-                p = p.left;
-            } else if (hash > p.hash) {
-                p = p.right;
-            } else if (key == p.key || key.equals(p.key)) {
-                return p;
-            } else if ((cmp = System.identityHashCode(key) - System.identityHashCode(p.key)) == 0 && (s = search(p.right, hash, key)) != null) {
-                return s;
-            } else if (cmp <= 0) {
-                p = p.left;
-            } else {
-                p = p.right;
-            }
-        }
-        return null;
     }
 
     @Override
@@ -276,9 +256,10 @@ public class HashMap<K, V> implements Map<K, V> {
         Node<K, V> e = null;
 
         if (node == null) {
-            table[index] = new Node<>(hash, key, value, null);
-        } else if (node instanceof TreeNode) {
-            e = putTreeVal(table, index, hash, key, value);
+            table[index] = newNode(hash, key, value, null);
+            afterPut(table[index]);
+        } else if (node instanceof HashMap.Tree) {
+            e = ((Tree) node).putTreeVal(hash, key, value);
         } else {
             Node<K, V> head = node, tail = node;
             e = node;
@@ -292,7 +273,8 @@ public class HashMap<K, V> implements Map<K, V> {
                 e = e.next;
             }
             if (e == null) {
-                tail.next = new Node<>(hash, key, value, null);
+                tail.next = newNode(hash, key, value, null);
+                afterPut(tail.next);
                 if (count >= TREEIFY_THRESHOLD) {
                     treeifyBin(table, head);
                 }
@@ -309,346 +291,13 @@ public class HashMap<K, V> implements Map<K, V> {
         }
     }
 
-    private TreeNode putTreeVal(Node[] tab, int index, int hash, K key, V value) {
-        TreeNode<K, V> root = (TreeNode) tab[index], parent = null, p = root, s;
-        int cmp = 0;
-        while (p != null) {
-            parent = p;
-            if ((cmp = hash - p.hash) < 0) {
-                p = p.left;
-            } else if (cmp > 0) {
-                p = p.right;
-            } else if (key == p.key || key.equals(p.key)) {
-                return p;
-            } else if ((cmp = System.identityHashCode(key) - System.identityHashCode(p.key)) == 0 && (s = search(p.right, hash, key)) != null) {
-                return s;
-            } else if (cmp <= 0) {
-                p = p.left;
-            } else {
-                p = p.right;
-            }
-        }
-
-        TreeNode<K, V> pn = (TreeNode) parent.next;
-        TreeNode e = new TreeNode(hash, key, value, pn);
-        if (cmp <= 0) {
-            parent.left = e;
-        } else {
-            parent.right = e;
-        }
-        e.parent = e.prev = parent;
-        parent.next = e;
-        if (pn != null) {
-            pn.prev = e;
-        }
-        root = fixupAfterInsert(root, e);
-        moveRootToHead(root, (TreeNode) tab[index]);
-        tab[index] = root;
-        return null;
-    }
-
-    private TreeNode search(TreeNode p, int hash, K key) {
-        if (p == null) {
-            return null;
-        }
-        if (hash == p.hash && (key == p.key || key.equals(p.key))) {
-            return p;
-        }
-        if (System.identityHashCode(key) - System.identityHashCode(p.key) != 0) {
-            return null;
-        }
-        TreeNode e = search(p.left, hash, key);
-        if (e != null) {
-            return e;
-        }
-        return search(p.right, hash, key);
-    }
-
     private void treeifyBin(Node<K, V>[] tab, Node<K, V> first) {
         if (tab.length < MIN_TREEIFY_CAPACITY) {
             resize();
         } else {
-            Node<K, V> p = first;
-            TreeNode<K, V> head = null, tail = null, e = null;
-            while (p != null) {
-                e = new TreeNode<>(p.hash, p.key, p.value, null);
-                if (head == null) {
-                    head = tail = e;
-                } else {
-                    tail.next = e;
-                    e.prev = tail;
-                    tail = e;
-                }
-                p = p.next;
-            }
-            treeify(tab, head);
+            int index = first.hash & (tab.length - 1);
+            tab[index] = new Tree(first);
         }
-    }
-
-    private void treeify(Node<K, V>[] tab, TreeNode<K, V> head) {
-        TreeNode<K, V> root = head, e = (TreeNode) head.next, parent, p;
-        setBlack(root);
-        root.parent = root.left = root.right = null;
-
-        int cmp = 0;
-        while (e != null) {
-            e.parent = e.left = e.right = null;
-            parent = null;
-            p = root;
-            while (p != null) {
-                parent = p;
-                if ((cmp = e.hash - p.hash) == 0) {
-                    cmp = System.identityHashCode(e.key) - System.identityHashCode(p.key);
-                }
-                if (cmp <= 0) {
-                    p = p.left;
-                } else if (cmp > 0) {
-                    p = p.right;
-                }
-            }
-            if (cmp <= 0) {
-                parent.left = e;
-            } else {
-                parent.right = e;
-            }
-            e.parent = parent;
-            root = fixupAfterInsert(root, e);
-            e = (TreeNode) e.next;
-        }
-        moveRootToHead(root, head);
-        tab[root.hash & (tab.length - 1)] = root;
-    }
-
-    private void untreeify(Node<K, V>[] tab, TreeNode<K, V> root) {
-        Node p = root, head = null, tail = null, e = null;
-        while (p != null) {
-            e = new Node(p.hash, p.key, p.value, null);
-            if (head == null) {
-                head = tail = e;
-            } else {
-                tail.next = e;
-                tail = e;
-            }
-            p = p.next;
-        }
-        tab[head.hash & (tab.length - 1)] = head;
-    }
-
-    private void moveRootToHead(TreeNode<K, V> root, TreeNode<K, V> head) {
-        if (root != head) {
-            TreeNode<K, V> rp = root.prev;
-            TreeNode<K, V> rn = (TreeNode) root.next;
-            if (rp != null) {
-                rp.next = rn;
-            }
-            if (rn != null) {
-                rn.prev = rp;
-            }
-            head.prev = root;
-            root.next = head;
-            root.prev = null;
-        }
-    }
-
-    private TreeNode fixupAfterInsert(TreeNode root, TreeNode e) {
-        TreeNode parent = null;
-        TreeNode uncle = null;
-        TreeNode grand = null;
-        while (isRed(e.parent)) {
-            parent = e.parent;
-            grand = parent.parent;
-            uncle = parent == grand.left ? grand.right : grand.left;
-            if (isRed(uncle)) {
-                setBlack(parent);
-                setBlack(uncle);
-                setRed(grand);
-                e = grand;
-            } else if (parent == grand.left) {
-                if (e == parent.left) {
-                    setBlack(parent);
-                    setRed(grand);
-                    root = rotateRight(root, grand);
-                } else {
-                    setBlack(e);
-                    setRed(grand);
-                    root = rotateLeft(root, parent);
-                    root = rotateRight(root, grand);
-                }
-                break;
-            } else {
-                if (e == parent.left) {
-                    setBlack(e);
-                    setRed(grand);
-                    root = rotateRight(root, parent);
-                    root = rotateLeft(root, grand);
-                } else {
-                    setBlack(parent);
-                    setRed(grand);
-                    root = rotateLeft(root, grand);
-                }
-                break;
-            }
-        }
-        setBlack(root);
-        return root;
-    }
-
-    private TreeNode fixupAfterDelete(TreeNode root, TreeNode e) {
-        if (isRed(e)) {
-            setBlack(e);
-            return root;
-        }
-
-        TreeNode parent = e.parent;
-        TreeNode sibling = null;
-
-        while (parent != null) {
-            if (e == parent.left) {
-                sibling = parent.right;
-                if (isRed(sibling)) {
-                    setRed(parent);
-                    setBlack(sibling);
-                    root = rotateLeft(root, parent);
-                    continue;
-                } else if (isRed(sibling.right)) {
-                    sibling.color = parent.color;
-                    setBlack(parent);
-                    setBlack(sibling.right);
-                    root = rotateLeft(root, parent);
-                    break;
-                } else if (isRed(sibling.left)) {
-                    sibling.left.color = parent.color;
-                    setBlack(parent);
-                    root = rotateRight(root, sibling);
-                    root = rotateLeft(root, parent);
-                    break;
-                }
-            } else {
-                sibling = parent.left;
-                if (isRed(sibling)) {
-                    setRed(parent);
-                    setBlack(sibling);
-                    root = rotateRight(root, parent);
-                    continue;
-                } else if (isRed(sibling.left)) {
-                    sibling.color = parent.color;
-                    setBlack(parent);
-                    setBlack(sibling.left);
-                    root = rotateRight(root, parent);
-                    break;
-                } else if (isRed(sibling.right)) {
-                    sibling.right.color = parent.color;
-                    setBlack(parent);
-                    root = rotateLeft(root, sibling);
-                    root = rotateRight(root, parent);
-                    break;
-                }
-            }
-
-            if (isRed(parent)) {
-                setRed(sibling);
-                setBlack(parent);
-                break;
-            } else {
-                setRed(sibling);
-                e = e.parent;
-                parent = parent.parent;
-            }
-        }
-        setBlack(root);
-        return root;
-    }
-
-    private boolean isRed(TreeNode e) {
-        return e != null && e.color == RED;
-    }
-
-    private void setRed(TreeNode e) {
-        if (e != null) {
-            e.color = RED;
-        }
-    }
-
-    private void setBlack(TreeNode e) {
-        if (e != null) {
-            e.color = BLACK;
-        }
-    }
-
-    private TreeNode predecessor(TreeNode e) {
-        if (e == null) {
-            return null;
-        }
-        if (e.left != null) {
-            e = e.left;
-            while (e.right != null) {
-                e = e.right;
-            }
-            return e;
-        }
-        TreeNode x = e, y = e.parent;
-        while (y != null && x == y.left) {
-            x = y;
-            y = y.parent;
-        }
-        return y;
-    }
-
-    private TreeNode successor(TreeNode e) {
-        if (e == null) {
-            return null;
-        }
-        if (e.right != null) {
-            e = e.right;
-            while (e.left != null) {
-                e = e.left;
-            }
-            return e;
-        }
-        TreeNode x = e, y = e.parent;
-        while (y != null && x == y.right) {
-            x = y;
-            y = y.parent;
-        }
-        return y;
-    }
-
-    private TreeNode rotateLeft(TreeNode root, TreeNode e) {
-        TreeNode r = e.right;
-        if (e.parent == null) {
-            root = r;
-        } else if (e == e.parent.left) {
-            e.parent.left = r;
-        } else {
-            e.parent.right = r;
-        }
-        r.parent = e.parent;
-        e.right = r.left;
-        if (r.left != null) {
-            r.left.parent = e;
-        }
-        r.left = e;
-        e.parent = r;
-        return root;
-    }
-
-    private TreeNode rotateRight(TreeNode root, TreeNode e) {
-        TreeNode l = e.left;
-        if (e.parent == null) {
-            root = l;
-        } else if (e == e.parent.left) {
-            e.parent.left = l;
-        } else {
-            e.parent.right = l;
-        }
-        l.parent = e.parent;
-        e.left = l.right;
-        if (l.right != null) {
-            l.right.parent = e;
-        }
-        l.right = e;
-        e.parent = l;
-        return root;
     }
 
     @Override
@@ -676,18 +325,11 @@ public class HashMap<K, V> implements Map<K, V> {
         return node == null ? null : node.value;
     }
 
-    public V remove(K key, V value) {
-        int hash = hash(key);
-        int index = hash & (table.length - 1);
-        Node<K, V> node = removeNode(hash, index, key, value, true);
-        return node == null ? null : node.value;
-    }
-
-    private Node removeNode(int hash, int index, K key) {
+    private Node<K, V> removeNode(int hash, int index, K key) {
         return removeNode(hash, index, key, null, false);
     }
 
-    private Node removeNode(int hash, int index, K key, V value, boolean matchValue) {
+    private Node<K, V> removeNode(int hash, int index, K key, V value, boolean matchValue) {
         if (table == null || table.length == 0) {
             return null;
         }
@@ -696,11 +338,15 @@ public class HashMap<K, V> implements Map<K, V> {
 
         if (e == null) {
             return null;
-        } else if (e instanceof TreeNode) {
-            delete = getTreeNode((TreeNode) e, hash, key);
+        } else if (e instanceof HashMap.Tree) {
+            Tree<K, V> tree = (Tree<K, V>) e;
+            delete = tree.getTreeNode(hash, key);
             if (delete != null && (!matchValue || Objects.equals(value, delete.value))) {
-                table[index] = removeTreeNode((TreeNode) e, (TreeNode) delete);
+                tree.removeTreeNode((TreeNode) delete);
                 size--;
+                if (tree.size < UNTREEIFY_THRESHOLD) {
+                    table[index] = tree.head;
+                }
             }
         } else {
             Node<K, V> prev = null;
@@ -718,49 +364,10 @@ public class HashMap<K, V> implements Map<K, V> {
                 size--;
             }
         }
+
+        afterDelete(delete);
+
         return delete;
-    }
-
-    private TreeNode removeTreeNode(TreeNode root, TreeNode e) {
-        if (e.left != null && e.right != null) {
-            TreeNode predecessor = predecessor(e);
-            e.hash = predecessor.hash;
-            e.key = predecessor.key;
-            e.value = predecessor.value;
-            e = predecessor;
-        }
-        TreeNode ep = e.prev;
-        TreeNode en = (TreeNode) e.next;
-        if (ep != null) ep.next = en;
-        if (en != null) en.prev = ep;
-
-        TreeNode replace = null;
-        if (e.left != null) {
-            replace = e.left;
-        } else if (e.right != null) {
-            replace = e.right;
-        }
-
-        if (e == root) {
-            root = replace;
-            setBlack(root);
-        } else if (replace == null) {
-            root = fixupAfterDelete(root, e);
-            if (e == e.parent.left) {
-                e.parent.left = null;
-            } else {
-                e.parent.right = null;
-            }
-        } else {
-            if (e == e.parent.left) {
-                e.parent.left = replace;
-            } else {
-                e.parent.right = replace;
-            }
-            replace.parent = e.parent;
-            root = fixupAfterDelete(root, replace);
-        }
-        return root;
     }
 
     @Override
@@ -784,13 +391,35 @@ public class HashMap<K, V> implements Map<K, V> {
 
     @Override
     public void forEach(BiConsumer<? super K, ? super V> action) {
-        for (int i = 0; i < table.length; i++) {
-            Node<K, V> e = table[i];
-            while (e != null) {
-                action.accept(e.key, e.value);
-                e = e.next;
+        if (table != null) {
+            for (Node<K, V> e : table) {
+                if (e != null && e instanceof HashMap.Tree) {
+                    e = ((Tree) e).head;
+                }
+                while (e != null) {
+                    action.accept(e.key, e.value);
+                    e = e.next;
+                }
             }
         }
+    }
+
+    protected void afterPut(Node add) {
+    }
+
+    protected void afterDelete(Node delete) {
+    }
+
+    protected Node newNode(int hash, Object key, Object value, Node next) {
+        return new Node(hash, key, value, next);
+    }
+
+    protected TreeNode newTreeNode(int hash, Object key, Object value, Node next) {
+        return new TreeNode(hash, key, value, next);
+    }
+
+    protected TreeNode replaceWithTreeNode(Node p) {
+        return new TreeNode(p.hash, p.key, p.value, null);
     }
 
     @Override
@@ -865,8 +494,11 @@ public class HashMap<K, V> implements Map<K, V> {
             if (table == null || table.length == 0) {
                 return false;
             }
-            for (Node node : table) {
+            for (Node<K, V> node : table) {
                 Node<K, V> e = node;
+                if (e != null && e instanceof HashMap.Tree) {
+                    e = ((Tree) e).head;
+                }
                 while (e != null) {
                     if (Objects.equals(value, e.value)) {
                         int index = e.hash & (table.length - 1);
@@ -944,6 +576,9 @@ public class HashMap<K, V> implements Map<K, V> {
                 while (index < table.length && (next = table[index]) == null) {
                     index++;
                 }
+                if (next != null && next instanceof HashMap.Tree) {
+                    next = ((Tree) next).head;
+                }
             }
         }
 
@@ -956,6 +591,9 @@ public class HashMap<K, V> implements Map<K, V> {
             next = next.next;
             if (next == null && index < table.length - 1) {
                 while (++index < table.length && (next = table[index]) == null) {
+                }
+                if (next != null && next instanceof HashMap.Tree) {
+                    next = ((Tree) next).head;
                 }
             }
             return cur;
@@ -972,7 +610,7 @@ public class HashMap<K, V> implements Map<K, V> {
         V value;
         Node<K, V> next;
 
-        public Node(int hash, K key, V value, Node<K, V> next) {
+        public Node(int hash, K key, V value, Node next) {
             this.hash = hash;
             this.key = key;
             this.value = value;
@@ -999,10 +637,387 @@ public class HashMap<K, V> implements Map<K, V> {
 
     class TreeNode<K, V> extends Node<K, V> {
         TreeNode<K, V> parent, left, right, prev;
-        boolean color = RED;
+        boolean color = Tree.RED;
 
-        public TreeNode(int hash, K key, V value, Node<K, V> next) {
+        public TreeNode(int hash, K key, V value, Node next) {
             super(hash, key, value, next);
+        }
+    }
+
+    class Tree<K, V> extends Node<K, V> {
+        static final boolean RED = false;
+        static final boolean BLACK = true;
+        TreeNode<K, V> root;
+        TreeNode<K, V> head;
+        TreeNode<K, V> tail;
+        int size;
+
+        public Tree(Node<K, V> first) {
+            super(TREE_NODE_HASH, null, null, null);
+            treeify(first);
+        }
+
+        void treeify(Node<K, V> first) {
+            TreeNode<K, V> treeNode = replaceNode(first);
+            root = head = tail = treeNode;
+            root.parent = root.left = root.right = null;
+            head.prev = null;
+            setBlack(root);
+            size++;
+
+            TreeNode<K, V> e = (TreeNode<K, V>) treeNode.next, parent, p;
+            int cmp = 0;
+            while (e != null) {
+                tail = e;
+                setRed(e);
+                parent = null;
+                p = root;
+                while (p != null) {
+                    parent = p;
+                    if ((cmp = e.hash - p.hash) == 0) {
+                        cmp = System.identityHashCode(e.key) - System.identityHashCode(p.key);
+                    }
+                    if (cmp <= 0) {
+                        p = p.left;
+                    } else if (cmp > 0) {
+                        p = p.right;
+                    }
+                }
+                if (cmp <= 0) {
+                    parent.left = e;
+                } else {
+                    parent.right = e;
+                }
+                e.parent = parent;
+                e.left = e.right = null;
+                fixupAfterInsert(e);
+                size++;
+                e = (TreeNode<K, V>) e.next;
+            }
+        }
+
+        TreeNode<K, V> replaceNode(Node<K, V> first) {
+            TreeNode<K, V> head = null, tail = null, e = null;
+            Node<K, V> p = first;
+            while (p != null) {
+                if (p instanceof TreeNode) {
+                    e = (TreeNode) p;
+                } else {
+                    e = HashMap.this.replaceWithTreeNode(p);
+                }
+                if (head == null) {
+                    head = e;
+                } else {
+                    e.prev = tail;
+                    tail.next = e;
+                }
+                tail = e;
+                p = p.next;
+            }
+            return head;
+        }
+
+        TreeNode<K, V> putTreeVal(int hash, K key, V value) {
+            TreeNode<K, V> p = root, parent = null, s;
+            int cmp = 0;
+            while (p != null) {
+                parent = p;
+                if ((cmp = hash - p.hash) < 0) {
+                    p = p.left;
+                } else if (cmp > 0) {
+                    p = p.right;
+                } else if (key == p.key || key.equals(p.key)) {
+                    return p;
+                } else if ((cmp = System.identityHashCode(key) - System.identityHashCode(p.key)) == 0 && (s = search(p.right, hash, key)) != null) {
+                    return s;
+                } else if (cmp <= 0) {
+                    p = p.left;
+                } else {
+                    p = p.right;
+                }
+            }
+
+            TreeNode<K, V> e = HashMap.this.newTreeNode(hash, key, value, null);
+            if (cmp <= 0) {
+                parent.left = e;
+            } else {
+                parent.right = e;
+            }
+            e.parent = parent;
+            fixupAfterInsert(e);
+
+            tail.next = e;
+            e.prev = tail;
+            tail = e;
+            size++;
+
+            HashMap.this.afterPut(e);
+
+            return null;
+        }
+
+        TreeNode<K, V> getTreeNode(int hash, K key) {
+            TreeNode<K, V> p = root, s;
+            int cmp;
+            while (p != null) {
+                if (hash < p.hash) {
+                    p = p.left;
+                } else if (hash > p.hash) {
+                    p = p.right;
+                } else if (key == p.key || key.equals(p.key)) {
+                    return p;
+                } else if ((cmp = System.identityHashCode(key) - System.identityHashCode(p.key)) == 0 && (s = search(p.right, hash, key)) != null) {
+                    return s;
+                } else if (cmp <= 0) {
+                    p = p.left;
+                } else {
+                    p = p.right;
+                }
+            }
+            return null;
+        }
+
+        void removeTreeNode(TreeNode<K, V> e) {
+            if (e.left != null && e.right != null) {
+                TreeNode<K, V> predecessor = predecessor(e);
+                e.hash = predecessor.hash;
+                e.key = predecessor.key;
+                e.value = predecessor.value;
+                e = predecessor;
+            }
+            TreeNode<K, V> ep = e.prev;
+            TreeNode<K, V> en = (TreeNode) e.next;
+
+            if (ep != null) {
+                ep.next = en;
+            } else {
+                head = en;
+            }
+            if (en != null) {
+                en.prev = ep;
+            } else {
+                tail = ep;
+            }
+
+            TreeNode<K, V> replace = null;
+            if (e.left != null) {
+                replace = e.left;
+            } else if (e.right != null) {
+                replace = e.right;
+            }
+
+            if (e == root) {
+                root = replace;
+                setBlack(root);
+            } else if (replace == null) {
+                fixupAfterDelete(e);
+                if (e == e.parent.left) {
+                    e.parent.left = null;
+                } else {
+                    e.parent.right = null;
+                }
+            } else {
+                if (e == e.parent.left) {
+                    e.parent.left = replace;
+                } else {
+                    e.parent.right = replace;
+                }
+                replace.parent = e.parent;
+                fixupAfterDelete(replace);
+            }
+            size--;
+        }
+
+        TreeNode<K, V> search(TreeNode<K, V> p, int hash, K key) {
+            if (p == null) {
+                return null;
+            }
+            if (hash == p.hash && (key == p.key || key.equals(p.key))) {
+                return p;
+            }
+            if (System.identityHashCode(key) - System.identityHashCode(p.key) != 0) {
+                return null;
+            }
+            TreeNode<K, V> e = search(p.left, hash, key);
+            if (e != null) {
+                return e;
+            }
+            return search(p.right, hash, key);
+        }
+
+        void fixupAfterInsert(TreeNode<K, V> e) {
+            TreeNode<K, V> parent = null;
+            TreeNode<K, V> uncle = null;
+            TreeNode<K, V> grand = null;
+            while (isRed(e.parent)) {
+                parent = e.parent;
+                grand = parent.parent;
+                uncle = parent == grand.left ? grand.right : grand.left;
+                if (isRed(uncle)) {
+                    setBlack(parent);
+                    setBlack(uncle);
+                    setRed(grand);
+                    e = grand;
+                } else if (parent == grand.left) {
+                    if (e == parent.left) {
+                        setBlack(parent);
+                        setRed(grand);
+                        rotateRight(grand);
+                    } else {
+                        setBlack(e);
+                        setRed(grand);
+                        rotateLeft(parent);
+                        rotateRight(grand);
+                    }
+                    break;
+                } else {
+                    if (e == parent.left) {
+                        setBlack(e);
+                        setRed(grand);
+                        rotateRight(parent);
+                        rotateLeft(grand);
+                    } else {
+                        setBlack(parent);
+                        setRed(grand);
+                        rotateLeft(grand);
+                    }
+                    break;
+                }
+            }
+            setBlack(root);
+        }
+
+        void fixupAfterDelete(TreeNode<K, V> e) {
+            if (isRed(e)) {
+                setBlack(e);
+                return;
+            }
+            TreeNode<K, V> parent = e.parent;
+            TreeNode<K, V> sibling = null;
+            while (parent != null) {
+                if (e == parent.left) {
+                    sibling = parent.right;
+                    if (isRed(sibling)) {
+                        setRed(parent);
+                        setBlack(sibling);
+                        rotateLeft(parent);
+                        continue;
+                    } else if (isRed(sibling.right)) {
+                        sibling.color = parent.color;
+                        setBlack(parent);
+                        setBlack(sibling.right);
+                        rotateLeft(parent);
+                        break;
+                    } else if (isRed(sibling.left)) {
+                        sibling.left.color = parent.color;
+                        setBlack(parent);
+                        rotateRight(sibling);
+                        rotateLeft(parent);
+                        break;
+                    }
+                } else {
+                    sibling = parent.left;
+                    if (isRed(sibling)) {
+                        setRed(parent);
+                        setBlack(sibling);
+                        rotateRight(parent);
+                        continue;
+                    } else if (isRed(sibling.left)) {
+                        sibling.color = parent.color;
+                        setBlack(parent);
+                        setBlack(sibling.left);
+                        rotateRight(parent);
+                        break;
+                    } else if (isRed(sibling.right)) {
+                        sibling.right.color = parent.color;
+                        setBlack(parent);
+                        rotateLeft(sibling);
+                        rotateRight(parent);
+                        break;
+                    }
+                }
+                if (isRed(parent)) {
+                    setRed(sibling);
+                    setBlack(parent);
+                    break;
+                } else {
+                    setRed(sibling);
+                    e = e.parent;
+                    parent = parent.parent;
+                }
+            }
+            setBlack(root);
+        }
+
+        TreeNode<K, V> predecessor(TreeNode<K, V> e) {
+            if (e == null) {
+                return null;
+            }
+            if (e.left != null) {
+                e = e.left;
+                while (e.right != null) {
+                    e = e.right;
+                }
+                return e;
+            }
+            TreeNode<K, V> x = e, y = e.parent;
+            while (y != null && x == y.left) {
+                x = y;
+                y = y.parent;
+            }
+            return y;
+        }
+
+        void rotateLeft(TreeNode<K, V> e) {
+            TreeNode<K, V> r = e.right;
+            if (e.parent == null) {
+                root = r;
+            } else if (e == e.parent.left) {
+                e.parent.left = r;
+            } else {
+                e.parent.right = r;
+            }
+            r.parent = e.parent;
+            e.right = r.left;
+            if (r.left != null) {
+                r.left.parent = e;
+            }
+            r.left = e;
+            e.parent = r;
+        }
+
+        void rotateRight(TreeNode<K, V> e) {
+            TreeNode<K, V> l = e.left;
+            if (e.parent == null) {
+                root = l;
+            } else if (e == e.parent.left) {
+                e.parent.left = l;
+            } else {
+                e.parent.right = l;
+            }
+            l.parent = e.parent;
+            e.left = l.right;
+            if (l.right != null) {
+                l.right.parent = e;
+            }
+            l.right = e;
+            e.parent = l;
+        }
+
+        boolean isRed(TreeNode<K, V> e) {
+            return e != null && e.color == RED;
+        }
+
+        void setRed(TreeNode<K, V> e) {
+            if (e != null) {
+                e.color = RED;
+            }
+        }
+
+        void setBlack(TreeNode<K, V> e) {
+            if (e != null) {
+                e.color = BLACK;
+            }
         }
     }
 
