@@ -1,5 +1,7 @@
 package org.xinhua.example.datastruct.map;
 
+import org.xinhua.example.datastruct.collection.*;
+
 import java.util.Objects;
 import java.util.function.BiConsumer;
 

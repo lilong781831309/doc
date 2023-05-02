@@ -1,4 +1,4 @@
-package org.xinhua.example.datastruct.tree.single;
+package org.xinhua.example.datastruct.tree;
 
 import org.xinhua.example.datastruct.collection.ArrayQueue;
 import org.xinhua.example.datastruct.collection.ArrayStack;
@@ -8,13 +8,29 @@ import org.xinhua.example.datastruct.collection.Stack;
 import java.util.Comparator;
 import java.util.function.BiConsumer;
 
-public class AVL<K, V> {
+/**
+ * @Author: lilong
+ * @createDate: 2023/4/17 17:24
+ * @Description: 红黑树
+ * @Version: 1.0
+ */
+public class RBT<K, V> {
 
+    private static final boolean RED = false;
+    private static final boolean BLACK = true;
     private final Comparator<? super K> comparator;
     private int size;
     private int rotateLeftCount;
     private int rotateRightCount;
     private Entry<K, V> root;
+
+    public RBT() {
+        this(null);
+    }
+
+    public RBT(Comparator<? super K> comparator) {
+        this.comparator = comparator;
+    }
 
     public int size() {
         return size;
@@ -28,27 +44,19 @@ public class AVL<K, V> {
         return rotateRightCount;
     }
 
-    public AVL() {
-        this(null);
-    }
-
-    public AVL(Comparator<? super K> comparator) {
-        this.comparator = comparator;
-    }
-
     public V insert(K k, V v) {
         if (k == null) {
             return null;
         }
         if (root == null) {
-            root = new Entry<>(k, v);
+            root = new Entry<>(null, k, v);
+            root.color = BLACK;
             size = 1;
             return null;
         }
         Entry<K, V> e = root;
         Entry<K, V> p = null;
         int cmp = 0;
-
         if (comparator != null) {
             while (e != null) {
                 p = e;
@@ -79,13 +87,13 @@ public class AVL<K, V> {
             }
         }
 
-        Entry<K, V> entry = new Entry<>(p, k, v);
+        Entry entry = new Entry<>(p, k, v);
         if (cmp < 0) {
             p.left = entry;
         } else {
             p.right = entry;
         }
-        rebalance(p);
+        fixupAfterInsert(entry);
         size++;
         return null;
     }
@@ -140,57 +148,152 @@ public class AVL<K, V> {
         } else if (e.right != null) {
             replace = e.right;
         }
+
         if (e == root) {
             root = replace;
-        } else if (e == e.parent.left) {
-            e.parent.left = replace;
+            setBlack(root);
+        } else if (replace == null) {
+            fixupAfterDelete(e);
+            if (e == e.parent.left) {
+                e.parent.left = null;
+            } else {
+                e.parent.right = null;
+            }
         } else {
-            e.parent.right = replace;
-        }
-        if (replace != null) {
+            if (e == e.parent.left) {
+                e.parent.left = replace;
+            } else {
+                e.parent.right = replace;
+            }
             replace.parent = e.parent;
+            fixupAfterDelete(replace);
         }
-        rebalance(e.parent);
         size--;
 
         return value;
     }
 
-    private void rebalance(Entry e) {
-        while (e != null) {
-            int oldlHight = e.hight;
-            int bf = bf(e);
-            if (bf == 2) {
-                if (bf(e.left) < 0) {
-                    rotateLeft(e.left);
+    private void fixupAfterInsert(Entry e) {
+        Entry parent = null;
+        Entry uncle = null;
+        Entry grand = null;
+        while (isRed(e.parent)) {
+            parent = e.parent;
+            grand = parent.parent;
+            uncle = parent == grand.left ? grand.right : grand.left;
+            if (isRed(uncle)) {
+                setBlack(parent);
+                setBlack(uncle);
+                setRed(grand);
+                e = grand;
+            } else if (parent == grand.left) {
+                if (e == parent.left) {
+                    setBlack(parent);
+                    setRed(grand);
+                    rotateRight(grand);
+                } else {
+                    setBlack(e);
+                    setRed(grand);
+                    rotateLeft(parent);
+                    rotateRight(grand);
                 }
-                e = rotateRight(e);
-            } else if (bf == -2) {
-                if (bf(e.right) > 0) {
-                    rotateRight(e.right);
+                break;
+            } else {
+                if (e == parent.left) {
+                    setBlack(e);
+                    setRed(grand);
+                    rotateRight(parent);
+                    rotateLeft(grand);
+                } else {
+                    setBlack(parent);
+                    setRed(grand);
+                    rotateLeft(grand);
                 }
-                e = rotateLeft(e);
-            }
-            updateHight(e);
-            if (e.hight == oldlHight) {
                 break;
             }
-            e = e.parent;
+        }
+        setBlack(root);
+    }
+
+    private void fixupAfterDelete(Entry e) {
+        if (isRed(e)) {
+            setBlack(e);
+            return;
+        }
+
+        Entry parent = e.parent;
+        Entry sibling = null;
+
+        while (parent != null) {
+            if (e == parent.left) {
+                sibling = parent.right;
+                if (isRed(sibling)) {
+                    setRed(parent);
+                    setBlack(sibling);
+                    rotateLeft(parent);
+                    continue;
+                } else if (isRed(sibling.right)) {
+                    sibling.color = parent.color;
+                    setBlack(parent);
+                    setBlack(sibling.right);
+                    rotateLeft(parent);
+                    break;
+                } else if (isRed(sibling.left)) {
+                    sibling.left.color = parent.color;
+                    setBlack(parent);
+                    rotateRight(sibling);
+                    rotateLeft(parent);
+                    break;
+                }
+            } else {
+                sibling = parent.left;
+                if (isRed(sibling)) {
+                    setRed(parent);
+                    setBlack(sibling);
+                    rotateRight(parent);
+                    continue;
+                } else if (isRed(sibling.left)) {
+                    sibling.color = parent.color;
+                    setBlack(parent);
+                    setBlack(sibling.left);
+                    rotateRight(parent);
+                    break;
+                } else if (isRed(sibling.right)) {
+                    sibling.right.color = parent.color;
+                    setBlack(parent);
+                    rotateLeft(sibling);
+                    rotateRight(parent);
+                    break;
+                }
+            }
+
+            if (isRed(parent)) {
+                setRed(sibling);
+                setBlack(parent);
+                break;
+            } else {
+                setRed(sibling);
+                e = e.parent;
+                parent = parent.parent;
+            }
+        }
+        setBlack(root);
+    }
+
+    private boolean isRed(Entry e) {
+        return e != null && e.color == RED;
+    }
+
+    private void setRed(Entry e) {
+        if (e != null) {
+            e.color = RED;
         }
     }
 
-    private int hight(Entry e) {
-        return e == null ? 0 : e.hight;
-    }
-
-    private void updateHight(Entry e) {
-        int lh = hight(e.left);
-        int rh = hight(e.right);
-        e.hight = lh > rh ? lh + 1 : rh + 1;
-    }
-
-    private int bf(Entry e) {
-        return hight(e.left) - hight(e.right);
+    private void setBlack(Entry e) {
+        if (e != null) {
+            e.color = BLACK;
+        }
     }
 
     private Entry predecessor(Entry e) {
@@ -228,8 +331,6 @@ public class AVL<K, V> {
         }
         r.left = e;
         e.parent = r;
-        updateHight(e);
-        updateHight(r);
         rotateLeftCount++;
         return r;
     }
@@ -250,8 +351,6 @@ public class AVL<K, V> {
         }
         l.right = e;
         e.parent = l;
-        updateHight(e);
-        updateHight(l);
         rotateRightCount++;
         return l;
     }
@@ -334,19 +433,16 @@ public class AVL<K, V> {
         Entry<K, V> parent, left, right;
         K k;
         V v;
-        int hight = 1;
+        boolean color = RED;
 
         public Entry() {
         }
 
-        public Entry(K k, V v) {
+        public Entry(Entry parent, K k, V v) {
+            this.parent = parent;
             this.k = k;
             this.v = v;
         }
-
-        public Entry(Entry parent, K k, V v) {
-            this(k, v);
-            this.parent = parent;
-        }
     }
+
 }

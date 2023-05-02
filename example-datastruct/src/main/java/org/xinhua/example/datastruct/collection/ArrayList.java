@@ -8,8 +8,7 @@ package org.xinhua.example.datastruct.collection;
  * @Description: 动态数组
  * @Version: 1.0
  */
-
-public class ArrayList<E> implements List<E> {
+public class ArrayList<E> extends AbstractCollection<E> implements List<E> {
 
     private static final int DEFAULT_CAPACITY = 10;
     private int size;
@@ -37,18 +36,19 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public void add(E e) {
-        add(size, e);
+    public boolean add(E e) {
+        return add(size, e);
     }
 
     @Override
-    public void add(int index, E e) {
+    public boolean add(int index, E e) {
         ensureCapacity(size + 1);
         for (int i = size; i > index; i--) {
             elements[i] = elements[i - 1];
         }
         elements[index] = e;
         size++;
+        return true;
     }
 
     @Override
@@ -62,11 +62,13 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
-    public void remove(E e) {
+    public boolean remove(E e) {
         int index = indexOf(e);
-        if (index > 0) {
+        if (index >= 0) {
             removeAt(index);
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -117,6 +119,11 @@ public class ArrayList<E> implements List<E> {
     }
 
     @Override
+    public Iterator<E> iterator() {
+        return new ListIterator();
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
         if (size > 0) {
@@ -158,6 +165,26 @@ public class ArrayList<E> implements List<E> {
             newCapacity = Integer.MAX_VALUE;
         }
         return newCapacity;
+    }
+
+    class ListIterator implements Iterator<E> {
+
+        int index;
+
+        @Override
+        public boolean hasNext() {
+            return index < size;
+        }
+
+        @Override
+        public E next() {
+            return (E) elements[index++];
+        }
+
+        @Override
+        public void remove() {
+            removeAt(index - 1);
+        }
     }
 }
 

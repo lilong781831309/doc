@@ -1,4 +1,4 @@
-package org.xinhua.example.datastruct.map;
+package org.xinhua.example.datastruct.collection;
 
 /**
  * @Author: lilong

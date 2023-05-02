@@ -1,6 +1,10 @@
 package org.xinhua.example.datastruct.map;
 
 
+import org.xinhua.example.datastruct.collection.Collection;
+import org.xinhua.example.datastruct.collection.Iterator;
+import org.xinhua.example.datastruct.collection.Set;
+
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
@@ -182,16 +186,14 @@ public class LinkedHashMap<K, V> extends HashMap<K, V> {
     class LinkedKeyIterator extends LinkedHashIterator implements Iterator<K> {
         @Override
         public K next() {
-            Entry<K, V> node = (Node) nextNode();
-            return node.getKey();
+            return nextNode().key;
         }
     }
 
     class LinkedValueIterator extends LinkedHashIterator implements Iterator<V> {
         @Override
         public V next() {
-            Entry<K, V> node = nextNode();
-            return node.getValue();
+            return nextNode().value;
         }
     }
 
@@ -220,7 +222,7 @@ public class LinkedHashMap<K, V> extends HashMap<K, V> {
 
     }
 
-    class LinkedNode<K, V> extends Node {
+    class LinkedNode<K, V> extends Node<K, V> {
 
         Node<K, V> before, after;
 
@@ -229,7 +231,7 @@ public class LinkedHashMap<K, V> extends HashMap<K, V> {
         }
     }
 
-    class LinkedTreeNode<K, V> extends TreeNode {
+    class LinkedTreeNode<K, V> extends TreeNode<K, V> {
 
         Node<K, V> before, after;
 

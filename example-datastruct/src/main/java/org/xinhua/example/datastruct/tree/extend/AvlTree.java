@@ -1,4 +1,4 @@
-package org.xinhua.example.datastruct.tree;
+package org.xinhua.example.datastruct.tree.extend;
 
 import java.util.Comparator;
 

@@ -1,7 +1,6 @@
 package org.xinhua.example.datastruct.map;
 
-import org.xinhua.example.datastruct.collection.ArrayStack;
-import org.xinhua.example.datastruct.collection.Stack;
+import org.xinhua.example.datastruct.collection.*;
 
 import java.util.Comparator;
 import java.util.function.BiConsumer;
@@ -534,13 +533,6 @@ public class TreeMap<K, V> implements Map<K, V> {
         }
     }
 
-    class KeyIterator extends TreeIterator implements Iterator<K> {
-        @Override
-        public K next() {
-            return nextEntry().key;
-        }
-    }
-
     class Values extends AbstractCollection<V> {
 
         @Override
@@ -561,13 +553,6 @@ public class TreeMap<K, V> implements Map<K, V> {
         @Override
         public boolean remove(V v) {
             return false;
-        }
-    }
-
-    class ValueIterator extends TreeIterator implements Iterator<V> {
-        @Override
-        public V next() {
-            return nextEntry().value;
         }
     }
 
@@ -605,6 +590,20 @@ public class TreeMap<K, V> implements Map<K, V> {
             int oldSize = size;
             deleteEntry((TreeNode) entry);
             return oldSize == size;
+        }
+    }
+
+    class KeyIterator extends TreeIterator implements Iterator<K> {
+        @Override
+        public K next() {
+            return nextEntry().key;
+        }
+    }
+
+    class ValueIterator extends TreeIterator implements Iterator<V> {
+        @Override
+        public V next() {
+            return nextEntry().value;
         }
     }
 

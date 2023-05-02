@@ -6,19 +6,19 @@ package org.xinhua.example.datastruct.collection;
  * @Description: 单列集合
  * @Version: 1.0
  */
-public interface List<E> {
+public interface List<E> extends Collection<E> {
 
     E get(int index);
 
     E set(int index, E e);
 
-    void add(E e);
+    boolean add(E e);
 
-    void add(int index, E e);
+    boolean add(int index, E e);
 
     void addAll(List<E> list);
 
-    void remove(E e);
+    boolean remove(E e);
 
     E removeAt(int index);
 
