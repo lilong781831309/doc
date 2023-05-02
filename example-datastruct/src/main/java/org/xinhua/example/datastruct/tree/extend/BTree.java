@@ -44,6 +44,10 @@ public class BTree<K, V> {
         this.comparator = comparator;
     }
 
+    protected int cmp(K k1, K k2) {
+        return comparator != null ? comparator.compare(k1, k2) : ((Comparable) k1).compareTo(k2);
+    }
+
     public V insert(K k, V v) {
         if (k == null) {
             return null;
@@ -217,29 +221,15 @@ public class BTree<K, V> {
 
     private int binarySearch(Node<K, V> node, K k) {
         int cmp = 0, low = 0, mid = 0, high = node.keySize() - 1;
-        if (comparator != null) {
-            while (low <= high) {
-                mid = (low + high) >>> 1;
-                cmp = comparator.compare(k, node.getK(mid));
-                if (cmp < 0) {
-                    high = mid - 1;
-                } else if (cmp > 0) {
-                    low = mid + 1;
-                } else {
-                    return mid;
-                }
-            }
-        } else {
-            while (low <= high) {
-                mid = (low + high) >>> 1;
-                cmp = ((Comparable) k).compareTo((Comparable) node.getK(mid));
-                if (cmp < 0) {
-                    high = mid - 1;
-                } else if (cmp > 0) {
-                    low = mid + 1;
-                } else {
-                    return mid;
-                }
+        while (low <= high) {
+            mid = (low + high) >>> 1;
+            cmp = cmp(k, node.getK(mid));
+            if (cmp < 0) {
+                high = mid - 1;
+            } else if (cmp > 0) {
+                low = mid + 1;
+            } else {
+                return mid;
             }
         }
         return -(low + 1);

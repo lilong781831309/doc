@@ -92,6 +92,10 @@ public class TreeMap<K, V> implements Map<K, V> {
         }
     }
 
+    private int cmp(K k1, K k2) {
+        return comparator != null ? comparator.compare(k1, k2) : ((Comparable) k1).compareTo(k2);
+    }
+
     private V putVal(K key, V value, boolean putIfAbsent) {
         if (key == null) {
             return null;
@@ -105,36 +109,18 @@ public class TreeMap<K, V> implements Map<K, V> {
         TreeNode e = root;
         TreeNode p = null;
         int cmp = 0;
-        if (comparator != null) {
-            while (e != null) {
-                p = e;
-                cmp = comparator.compare(key, e.key);
-                if (cmp < 0) {
-                    e = e.left;
-                } else if (cmp > 0) {
-                    e = e.right;
-                } else if (putIfAbsent) {
-                    return e.setValue(value);
-                } else {
-                    return e.value;
-                }
-            }
-        } else {
-            while (e != null) {
-                p = e;
-                cmp = ((Comparable) key).compareTo(((Comparable) e.key));
-                if (cmp < 0) {
-                    e = e.left;
-                } else if (cmp > 0) {
-                    e = e.right;
-                } else if (putIfAbsent) {
-                    return e.setValue(value);
-                } else {
-                    return e.value;
-                }
+        while (e != null) {
+            p = e;
+            if ((cmp = cmp(key, e.key)) < 0) {
+                e = e.left;
+            } else if (cmp > 0) {
+                e = e.right;
+            } else if (putIfAbsent) {
+                return e.setValue(value);
+            } else {
+                return e.value;
             }
         }
-
         TreeNode entry = new TreeNode(p, key, value);
         if (cmp < 0) {
             p.left = entry;
@@ -164,28 +150,13 @@ public class TreeMap<K, V> implements Map<K, V> {
 
         TreeNode e = root;
         int cmp;
-
-        if (comparator != null) {
-            while (e != null) {
-                cmp = comparator.compare(key, e.key);
-                if (cmp < 0) {
-                    e = e.left;
-                } else if (cmp > 0) {
-                    e = e.right;
-                } else {
-                    return e;
-                }
-            }
-        } else {
-            while (e != null) {
-                cmp = ((Comparable) key).compareTo(((Comparable) e.key));
-                if (cmp < 0) {
-                    e = e.left;
-                } else if (cmp > 0) {
-                    e = e.right;
-                } else {
-                    return e;
-                }
+        while (e != null) {
+            if ((cmp = cmp(key, e.key)) < 0) {
+                e = e.left;
+            } else if (cmp > 0) {
+                e = e.right;
+            } else {
+                return e;
             }
         }
         return null;

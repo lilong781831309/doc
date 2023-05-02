@@ -79,24 +79,20 @@ public class PriorityQueue<E> implements Queue<E> {
         return size;
     }
 
+    private int cmp(Object e1, Object e2) {
+        return comparator != null ? comparator.compare((E) e1, (E) e2) : ((Comparable) e1).compareTo(e2);
+    }
+
     private void shiftUp(int k) {
         if (k == 0) {
             return;
         }
         int p = (k - 1) >> 1;
         Object e = elements[k];
-        if (comparator != null) {
-            while (p >= 0 && comparator.compare((E) e, (E) elements[p]) < 0) {
-                elements[k] = elements[p];
-                k = p;
-                p = (k - 1) >> 1;
-            }
-        } else {
-            while (p >= 0 && ((Comparable) e).compareTo((Comparable<E>) elements[p]) < 0) {
-                elements[k] = elements[p];
-                k = p;
-                p = (k - 1) >> 1;
-            }
+        while (p >= 0 && cmp(e, elements[p]) < 0) {
+            elements[k] = elements[p];
+            k = p;
+            p = (k - 1) >> 1;
         }
         elements[k] = e;
     }
@@ -105,31 +101,16 @@ public class PriorityQueue<E> implements Queue<E> {
         int p = k;
         int pos = (p << 1) + 1;
         Object e = elements[p];
-        if (comparator != null) {
-            while (pos < size) {
-                if (pos + 1 < size && comparator.compare((E) elements[pos], (E) elements[pos + 1]) > 0) {
-                    pos++;
-                }
-                if (comparator.compare((E) e, (E) elements[pos]) > 0) {
-                    elements[p] = elements[pos];
-                    p = pos;
-                    pos = (p << 1) + 1;
-                } else {
-                    break;
-                }
+        while (pos < size) {
+            if (pos + 1 < size && cmp(elements[pos], elements[pos + 1]) > 0) {
+                pos++;
             }
-        } else {
-            while (pos < size) {
-                if (pos + 1 < size && ((Comparable) elements[pos]).compareTo((Comparable<E>) elements[pos + 1]) > 0) {
-                    pos++;
-                }
-                if (((Comparable) e).compareTo((Comparable<E>) elements[pos]) > 0) {
-                    elements[p] = elements[pos];
-                    p = pos;
-                    pos = (p << 1) + 1;
-                } else {
-                    break;
-                }
+            if (cmp(e, elements[pos]) > 0) {
+                elements[p] = elements[pos];
+                p = pos;
+                pos = (p << 1) + 1;
+            } else {
+                break;
             }
         }
         elements[p] = e;

@@ -36,29 +36,14 @@ public class AvlTree<E> extends BsTree<E> {
         AVLNode<E> p = (AVLNode)root;
         AVLNode<E> parent = null;
         int cmp = 0;
-        if (comparator != null) {
-            while (p != null) {
-                parent = p;
-                cmp = comparator.compare(e, p.e);
-                if (cmp < 0) {
-                    p =(AVLNode) p.left;
-                } else if (cmp > 0) {
-                    p = (AVLNode)p.right;
-                } else {
-                    return;
-                }
-            }
-        } else {
-            while (p != null) {
-                parent = p;
-                cmp = ((Comparable) e).compareTo(p.e);
-                if (cmp < 0) {
-                    p = (AVLNode)p.left;
-                } else if (cmp > 0) {
-                    p = (AVLNode)p.right;
-                } else {
-                    return;
-                }
+        while (p != null) {
+            parent = p;
+            if ((cmp = cmp(e, p.e)) < 0) {
+                p =(AVLNode) p.left;
+            } else if (cmp > 0) {
+                p = (AVLNode)p.right;
+            } else {
+                return;
             }
         }
 

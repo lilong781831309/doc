@@ -36,6 +36,10 @@ public class BsTree<E> {
         return size;
     }
 
+    protected int cmp(E e1, E e2) {
+        return comparator != null ? comparator.compare(e1, e2) : ((Comparable) e1).compareTo(e2);
+    }
+
     /**
      * 插入结点
      */
@@ -48,32 +52,16 @@ public class BsTree<E> {
         BSTNode<E> p = root;
         BSTNode<E> parent = null;
         int cmp = 0;
-        if (comparator != null) {
-            while (p != null) {
-                parent = p;
-                cmp = comparator.compare(e, p.e);
-                if (cmp < 0) {
-                    p = p.left;
-                } else if (cmp > 0) {
-                    p = p.right;
-                } else {
-                    return;
-                }
-            }
-        } else {
-            while (p != null) {
-                parent = p;
-                cmp = ((Comparable) e).compareTo(p.e);
-                if (cmp < 0) {
-                    p = p.left;
-                } else if (cmp > 0) {
-                    p = p.right;
-                } else {
-                    return;
-                }
+        while (p != null) {
+            parent = p;
+            if ((cmp = cmp(e, p.e)) < 0) {
+                p = p.left;
+            } else if (cmp > 0) {
+                p = p.right;
+            } else {
+                return;
             }
         }
-
         if (cmp < 0) {
             parent.left = new BSTNode(parent, e);
         } else {
@@ -178,28 +166,14 @@ public class BsTree<E> {
             return null;
         }
         BSTNode<E> p = root;
-        int cmp = 0;
-        if (comparator != null) {
-            while (p != null) {
-                cmp = comparator.compare(e, p.e);
-                if (cmp < 0) {
-                    p = p.left;
-                } else if (cmp > 0) {
-                    p = p.right;
-                } else {
-                    break;
-                }
-            }
-        } else {
-            while (p != null) {
-                cmp = ((Comparable) e).compareTo((Comparable) (p.e));
-                if (cmp < 0) {
-                    p = p.left;
-                } else if (cmp > 0) {
-                    p = p.right;
-                } else {
-                    break;
-                }
+        int cmp;
+        while (p != null) {
+            if ((cmp = cmp(e, p.e)) < 0) {
+                p = p.left;
+            } else if (cmp > 0) {
+                p = p.right;
+            } else {
+                break;
             }
         }
         return p;

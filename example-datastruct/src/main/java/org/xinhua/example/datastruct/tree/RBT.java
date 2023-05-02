@@ -32,6 +32,10 @@ public class RBT<K, V> {
         this.comparator = comparator;
     }
 
+    protected int cmp(K k1, K k2) {
+        return comparator != null ? comparator.compare(k1, k2) : ((Comparable) k1).compareTo(k2);
+    }
+
     public int size() {
         return size;
     }
@@ -57,33 +61,16 @@ public class RBT<K, V> {
         Entry<K, V> e = root;
         Entry<K, V> p = null;
         int cmp = 0;
-        if (comparator != null) {
-            while (e != null) {
-                p = e;
-                cmp = comparator.compare(k, e.k);
-                if (cmp < 0) {
-                    e = e.left;
-                } else if (cmp > 0) {
-                    e = e.right;
-                } else {
-                    V value = e.v;
-                    e.v = v;
-                    return value;
-                }
-            }
-        } else {
-            while (e != null) {
-                p = e;
-                cmp = ((Comparable) k).compareTo(((Comparable) e.k));
-                if (cmp < 0) {
-                    e = e.left;
-                } else if (cmp > 0) {
-                    e = e.right;
-                } else {
-                    V value = e.v;
-                    e.v = v;
-                    return value;
-                }
+        while (e != null) {
+            p = e;
+            if ((cmp = cmp(k, e.k)) < 0) {
+                e = e.left;
+            } else if (cmp > 0) {
+                e = e.right;
+            } else {
+                V value = e.v;
+                e.v = v;
+                return value;
             }
         }
 
@@ -105,27 +92,13 @@ public class RBT<K, V> {
         Entry<K, V> e = root;
         int cmp = 0;
 
-        if (comparator != null) {
-            while (e != null) {
-                cmp = comparator.compare(k, e.k);
-                if (cmp < 0) {
-                    e = e.left;
-                } else if (cmp > 0) {
-                    e = e.right;
-                } else {
-                    break;
-                }
-            }
-        } else {
-            while (e != null) {
-                cmp = ((Comparable) k).compareTo(((Comparable) e.k));
-                if (cmp < 0) {
-                    e = e.left;
-                } else if (cmp > 0) {
-                    e = e.right;
-                } else {
-                    break;
-                }
+        while (e != null) {
+            if ((cmp = cmp(k, e.k)) < 0) {
+                e = e.left;
+            } else if (cmp > 0) {
+                e = e.right;
+            } else {
+                break;
             }
         }
 

@@ -30,6 +30,10 @@ public class BsTree2<E> {
         return size;
     }
 
+    protected int cmp(E e1, E e2) {
+        return comparator != null ? comparator.compare(e1, e2) : ((Comparable) e1).compareTo(e2);
+    }
+
     /**
      * 插入结点
      */
@@ -41,29 +45,14 @@ public class BsTree2<E> {
         }
         Node<E> p = root, parent = null;
         int cmp = 0;
-        if (comparator != null) {
-            while (p != null) {
-                parent = p;
-                cmp = comparator.compare(e, p.e);
-                if (cmp < 0) {
-                    p = p.left;
-                } else if (cmp > 0) {
-                    p = p.right;
-                } else {
-                    return;
-                }
-            }
-        } else {
-            while (p != null) {
-                parent = p;
-                cmp = ((Comparable) e).compareTo(p.e);
-                if (cmp < 0) {
-                    p = p.left;
-                } else if (cmp > 0) {
-                    p = p.right;
-                } else {
-                    return;
-                }
+        while (p != null) {
+            parent = p;
+            if ((cmp = cmp(e, p.e)) < 0) {
+                p = p.left;
+            } else if (cmp > 0) {
+                p = p.right;
+            } else {
+                return;
             }
         }
         if (cmp < 0) {
@@ -84,31 +73,15 @@ public class BsTree2<E> {
 
         Node<E> p = root, parent = null;
         int cmp = 0;
-        if (comparator != null) {
-            while (p != null) {
-                cmp = comparator.compare(e, p.e);
-                if (cmp < 0) {
-                    parent = p;
-                    p = p.left;
-                } else if (cmp > 0) {
-                    parent = p;
-                    p = p.right;
-                } else {
-                    break;
-                }
-            }
-        } else {
-            while (p != null) {
-                cmp = ((Comparable) e).compareTo((Comparable) (p.e));
-                if (cmp < 0) {
-                    parent = p;
-                    p = p.left;
-                } else if (cmp > 0) {
-                    parent = p;
-                    p = p.right;
-                } else {
-                    break;
-                }
+        while (p != null) {
+            if ((cmp = cmp(e, p.e)) < 0) {
+                parent = p;
+                p = p.left;
+            } else if (cmp > 0) {
+                parent = p;
+                p = p.right;
+            } else {
+                break;
             }
         }
 
@@ -207,43 +180,23 @@ public class BsTree2<E> {
         Node<E> predecessor = null;
         E e = p.e;
         p = root;
-        if (comparator != null) {
-            int c = comparator.compare(p.e, e);
-            while (c != 0) {
-                while (c > 0) {
-                    p = p.left;
-                    if (p == null) {
-                        return predecessor;
-                    }
-                    c = comparator.compare(p.e, e);
+        int c = cmp(p.e, e);
+
+        while (c != 0) {
+            while (c > 0) {
+                p = p.left;
+                if (p == null) {
+                    return predecessor;
                 }
-                while (c < 0) {
-                    predecessor = p;
-                    p = p.right;
-                    if (p == null) {
-                        return predecessor;
-                    }
-                    c = comparator.compare(p.e, e);
-                }
+                c = cmp(p.e, e);
             }
-        } else {
-            int c = ((Comparable) p.e).compareTo((Comparable) e);
-            while (c != 0) {
-                while (c > 0) {
-                    p = p.left;
-                    if (p == null) {
-                        return predecessor;
-                    }
-                    c = ((Comparable) p.e).compareTo((Comparable) e);
+            while (c < 0) {
+                predecessor = p;
+                p = p.right;
+                if (p == null) {
+                    return predecessor;
                 }
-                while (c < 0) {
-                    predecessor = p;
-                    p = p.right;
-                    if (p == null) {
-                        return predecessor;
-                    }
-                    c = ((Comparable) p.e).compareTo((Comparable) e);
-                }
+                c = cmp(p.e, e);
             }
         }
 
@@ -264,43 +217,23 @@ public class BsTree2<E> {
         Node<E> successor = null;
         E e = p.e;
         p = root;
-        if (comparator != null) {
-            int c = comparator.compare(p.e, e);
-            while (c != 0) {
-                while (c < 0) {
-                    p = p.right;
-                    if (p == null) {
-                        return successor;
-                    }
-                    c = comparator.compare(p.e, e);
+        int c = cmp(p.e, e);
+
+        while (c != 0) {
+            while (c < 0) {
+                p = p.right;
+                if (p == null) {
+                    return successor;
                 }
-                while (c > 0) {
-                    successor = p;
-                    p = p.left;
-                    if (p == null) {
-                        return successor;
-                    }
-                    c = comparator.compare(p.e, e);
-                }
+                c = cmp(p.e, e);
             }
-        } else {
-            int c = ((Comparable) p.e).compareTo((Comparable) e);
-            while (c != 0) {
-                while (c < 0) {
-                    p = p.right;
-                    if (p == null) {
-                        return successor;
-                    }
-                    c = ((Comparable) p.e).compareTo((Comparable) e);
+            while (c > 0) {
+                successor = p;
+                p = p.left;
+                if (p == null) {
+                    return successor;
                 }
-                while (c > 0) {
-                    successor = p;
-                    p = p.left;
-                    if (p == null) {
-                        return successor;
-                    }
-                    c = ((Comparable) p.e).compareTo((Comparable) e);
-                }
+                c = cmp(p.e, e);
             }
         }
 
@@ -332,8 +265,6 @@ public class BsTree2<E> {
         public Node(E e) {
             this.e = e;
         }
-
-
     }
 
 }

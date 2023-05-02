@@ -94,21 +94,17 @@ public class Heap<E> {
         return size == 0;
     }
 
+    private int cmp(Object e1, Object e2) {
+        return comparator != null ? comparator.compare((E) e1, (E) e2) : ((Comparable) e1).compareTo(e2);
+    }
+
     private void shiftUp(int k) {
         int p = (k - 1) >> 1;
-        Object e = values[k];
-        if (comparator != null) {
-            while (p >= 0 && comparator.compare((E) e, (E) values[p]) < 0) {
-                values[k] = values[p];
-                k = p;
-                p = (k - 1) >> 1;
-            }
-        } else {
-            while (p >= 0 && ((Comparable) e).compareTo((Comparable) values[p]) < 0) {
-                values[k] = values[p];
-                k = p;
-                p = (k - 1) >> 1;
-            }
+        E e = (E) values[k];
+        while (p >= 0 && cmp(e, values[p]) < 0) {
+            values[k] = values[p];
+            k = p;
+            p = (k - 1) >> 1;
         }
         values[k] = e;
     }
@@ -116,32 +112,17 @@ public class Heap<E> {
     private void shiftDown(int k) {
         int p = k;
         k = (p << 1) + 1;
-        Object e = values[p];
-        if (comparator != null) {
-            while (k < size) {
-                if (k + 1 < size && comparator.compare((E) values[k + 1], (E) values[k]) < 0) {
-                    k++;
-                }
-                if (comparator.compare((E) e, (E) values[k]) > 0) {
-                    values[p] = values[k];
-                    p = k;
-                    k = (p << 1) + 1;
-                } else {
-                    break;
-                }
+        E e = (E) values[p];
+        while (k < size) {
+            if (k + 1 < size && cmp(values[k + 1], values[k]) < 0) {
+                k++;
             }
-        } else {
-            while (k < size) {
-                if (k + 1 < size && ((Comparable) values[k + 1]).compareTo((Comparable) values[k]) < 0) {
-                    k++;
-                }
-                if (((Comparable) e).compareTo((Comparable) values[k]) > 0) {
-                    values[p] = values[k];
-                    p = k;
-                    k = (p << 1) + 1;
-                } else {
-                    break;
-                }
+            if (cmp(e, values[k]) > 0) {
+                values[p] = values[k];
+                p = k;
+                k = (p << 1) + 1;
+            } else {
+                break;
             }
         }
         values[p] = e;

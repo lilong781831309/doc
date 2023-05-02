@@ -32,29 +32,14 @@ public class RbTree<E> extends BsTree<E> {
         RBTNode<E> p = (RBTNode) root;
         RBTNode<E> parent = null;
         int cmp = 0;
-        if (comparator != null) {
-            while (p != null) {
-                parent = p;
-                cmp = comparator.compare(e, p.e);
-                if (cmp < 0) {
-                    p = (RBTNode) p.left;
-                } else if (cmp > 0) {
-                    p = (RBTNode) p.right;
-                } else {
-                    return;
-                }
-            }
-        } else {
-            while (p != null) {
-                parent = p;
-                cmp = ((Comparable) e).compareTo(p.e);
-                if (cmp < 0) {
-                    p = (RBTNode) p.left;
-                } else if (cmp > 0) {
-                    p = (RBTNode) p.right;
-                } else {
-                    return;
-                }
+        while (p != null) {
+            parent = p;
+            if ((cmp = cmp(e, p.e)) < 0) {
+                p = (RBTNode) p.left;
+            } else if (cmp > 0) {
+                p = (RBTNode) p.right;
+            } else {
+                return;
             }
         }
         RBTNode<E> node = new RBTNode(parent, e);
