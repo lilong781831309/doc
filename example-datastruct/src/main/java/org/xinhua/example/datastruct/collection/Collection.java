@@ -19,6 +19,8 @@ public interface Collection<E> {
 
     Iterator<E> iterator();
 
+    E[] toArray();
+
     boolean add(E e);
 
     boolean remove(E e);

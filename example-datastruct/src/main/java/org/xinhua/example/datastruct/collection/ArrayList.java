@@ -24,6 +24,18 @@ public class ArrayList<E> extends AbstractCollection<E> implements List<E> {
     }
 
     @Override
+    public E[] toArray() {
+        if (size == 0) {
+            return (E[]) new Object[0];
+        }
+        Object[] arr = new Object[size];
+        for (int i = 0; i < size; i++) {
+            arr[i] = elements[i];
+        }
+        return (E[]) arr;
+    }
+
+    @Override
     public E get(int index) {
         return (E) elements[index];
     }

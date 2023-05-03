@@ -10,10 +10,12 @@ import java.util.function.Consumer;
  */
 public abstract class AbstractCollection<E> implements Collection<E> {
 
+    @Override
     public boolean isEmpty() {
         return size() == 0;
     }
 
+    @Override
     public boolean contains(E e) {
         Iterator<E> it = iterator();
         if (e == null) {
@@ -32,6 +34,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
         return false;
     }
 
+    @Override
     public boolean containsAll(Collection<E> c) {
         Iterator<E> it = c.iterator();
         while (it.hasNext()) {
@@ -42,10 +45,26 @@ public abstract class AbstractCollection<E> implements Collection<E> {
         return true;
     }
 
+    @Override
+    public E[] toArray() {
+        if (size() == 0) {
+            return (E[]) new Object[0];
+        }
+        Object[] arr = new Object[size()];
+        Iterator<E> it = iterator();
+        int i = 0;
+        while (it.hasNext()) {
+            arr[i++] = it.next();
+        }
+        return (E[]) arr;
+    }
+
+    @Override
     public boolean add(E e) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     public boolean addAll(Collection<E> c) {
         boolean modified = false;
         Iterator<E> it = c.iterator();
@@ -57,6 +76,28 @@ public abstract class AbstractCollection<E> implements Collection<E> {
         return modified;
     }
 
+    @Override
+    public boolean remove(E e) {
+        Iterator<E> it = iterator();
+        if (e == null) {
+            while (it.hasNext()) {
+                if (it.next() == null) {
+                    it.remove();
+                    return true;
+                }
+            }
+        } else {
+            while (it.hasNext()) {
+                if (e.equals(it.next())) {
+                    it.remove();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
     public boolean removeAll(Collection<E> c) {
         boolean modified = false;
         Iterator<E> it = iterator();
@@ -69,6 +110,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
         return modified;
     }
 
+    @Override
     public void clear() {
         Iterator<E> it = iterator();
         while (it.hasNext()) {
