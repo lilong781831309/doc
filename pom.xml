@@ -22,6 +22,8 @@
         <module>example-log4j</module>
         <module>example-google</module>
         <module>example-flume</module>
+        <module>example-design-pattern</module>
+        <module>example-zving</module>
     </modules>
 
     <dependencies>
