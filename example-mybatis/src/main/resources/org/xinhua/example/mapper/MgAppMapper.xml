@@ -13,7 +13,7 @@
     delete from mg_app
     where pid = #{pid,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="org.xinhua.example.model.MgApp">
+  <insert id="insert" parameterType="org.xinhua.example.model.MgApp" useGeneratedKeys="true" keyProperty="pid">
     insert into mg_app (pid, app_id, app_secret, 
       access_token, expires_time)
     values (#{pid,jdbcType=BIGINT}, #{appId,jdbcType=VARCHAR}, #{appSecret,jdbcType=VARCHAR}, 

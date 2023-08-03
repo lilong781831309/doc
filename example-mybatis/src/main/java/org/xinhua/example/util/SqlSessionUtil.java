@@ -1,4 +1,4 @@
-package org.xinhua.example.mapper;
+package org.xinhua.example.util;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -26,10 +26,14 @@ public class SqlSessionUtil {
         return factory;
     }
 
-    public static SqlSession getSqlSession() {
-        if(defaultFactory == null){
+    public static SqlSession getSqlSession(boolean autoCommit) {
+        if (defaultFactory == null) {
             defaultFactory = getSqlSessionFactory();
         }
-        return defaultFactory.openSession();
+        return defaultFactory.openSession(autoCommit);
+    }
+
+    public static SqlSession getSqlSession() {
+        return getSqlSession(true);
     }
 }

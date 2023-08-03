@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.xinhua.example.mapper.MgVideoNumMapper">
-  <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
   <resultMap id="BaseResultMap" type="org.xinhua.example.model.MgVideoNum">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="pid" jdbcType="BIGINT" property="pid" />
@@ -16,7 +15,7 @@
     delete from mg_video_num
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="org.xinhua.example.model.MgVideoNum">
+  <insert id="insert" parameterType="org.xinhua.example.model.MgVideoNum" useGeneratedKeys="true" keyProperty="id">
     insert into mg_video_num (id, pid, video_id, 
       video_num, media_id, mp4_url, 
       expires_time, is_del)
