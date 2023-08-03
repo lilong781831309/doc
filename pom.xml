@@ -24,7 +24,7 @@
         <module>example-flume</module>
         <module>example-design-pattern</module>
         <module>example-zving</module>
-        <module>example-mybatis-generator</module>
+        <module>example-mybatis</module>
     </modules>
 
     <dependencies>

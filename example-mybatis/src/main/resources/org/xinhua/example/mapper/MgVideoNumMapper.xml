@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.xinhua.example.mapper.MgVideoNumMapper">
+  <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+  <resultMap id="BaseResultMap" type="org.xinhua.example.model.MgVideoNum">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="pid" jdbcType="BIGINT" property="pid" />
+    <result column="video_id" jdbcType="BIGINT" property="videoId" />
+    <result column="video_num" jdbcType="INTEGER" property="videoNum" />
+    <result column="media_id" jdbcType="BIGINT" property="mediaId" />
+    <result column="mp4_url" jdbcType="VARCHAR" property="mp4Url" />
+    <result column="expires_time" jdbcType="TIMESTAMP" property="expiresTime" />
+    <result column="is_del" jdbcType="INTEGER" property="isDel" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from mg_video_num
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.xinhua.example.model.MgVideoNum">
+    insert into mg_video_num (id, pid, video_id, 
+      video_num, media_id, mp4_url, 
+      expires_time, is_del)
+    values (#{id,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, #{videoId,jdbcType=BIGINT}, 
+      #{videoNum,jdbcType=INTEGER}, #{mediaId,jdbcType=BIGINT}, #{mp4Url,jdbcType=VARCHAR}, 
+      #{expiresTime,jdbcType=TIMESTAMP}, #{isDel,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="org.xinhua.example.model.MgVideoNum">
+    update mg_video_num
+    set pid = #{pid,jdbcType=BIGINT},
+      video_id = #{videoId,jdbcType=BIGINT},
+      video_num = #{videoNum,jdbcType=INTEGER},
+      media_id = #{mediaId,jdbcType=BIGINT},
+      mp4_url = #{mp4Url,jdbcType=VARCHAR},
+      expires_time = #{expiresTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, pid, video_id, video_num, media_id, mp4_url, expires_time, is_del
+    from mg_video_num
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, pid, video_id, video_num, media_id, mp4_url, expires_time, is_del
+    from mg_video_num
+  </select>
+</mapper>

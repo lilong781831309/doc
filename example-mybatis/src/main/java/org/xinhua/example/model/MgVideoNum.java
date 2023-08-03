@@ -1,4 +1,4 @@
-package org.xinhua.example.model.po;
+package org.xinhua.example.model;
 
 import java.util.Date;
 

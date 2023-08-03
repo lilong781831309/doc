@@ -1,17 +1,16 @@
 package org.xinhua.example.mapper;
 
-import org.xinhua.example.model.po.MgApp;
+import java.util.List;
+import org.xinhua.example.model.MgApp;
 
 public interface MgAppMapper {
     int deleteByPrimaryKey(Long pid);
 
     int insert(MgApp row);
 
-    int insertSelective(MgApp row);
-
     MgApp selectByPrimaryKey(Long pid);
 
-    int updateByPrimaryKeySelective(MgApp row);
+    List<MgApp> selectAll();
 
     int updateByPrimaryKey(MgApp row);
 }

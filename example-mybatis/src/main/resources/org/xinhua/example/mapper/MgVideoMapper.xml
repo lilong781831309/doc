@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.xinhua.example.mapper.MgVideoMapper">
+  <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
+  <resultMap id="BaseResultMap" type="org.xinhua.example.model.MgVideo">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="pid" jdbcType="BIGINT" property="pid" />
+    <result column="drama_id" jdbcType="BIGINT" property="dramaId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="comment" jdbcType="VARCHAR" property="comment" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from mg_video
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="org.xinhua.example.model.MgVideo">
+    insert into mg_video (id, pid, drama_id, 
+      name, comment)
+    values (#{id,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT}, #{dramaId,jdbcType=BIGINT}, 
+      #{name,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="org.xinhua.example.model.MgVideo">
+    update mg_video
+    set pid = #{pid,jdbcType=BIGINT},
+      drama_id = #{dramaId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      comment = #{comment,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select id, pid, drama_id, name, comment
+    from mg_video
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, pid, drama_id, name, comment
+    from mg_video
+  </select>
+</mapper>

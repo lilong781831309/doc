@@ -1,4 +1,4 @@
-package org.xinhua.example.model.po;
+package org.xinhua.example.model;
 
 public class MgVideo {
     private Long id;
@@ -10,8 +10,6 @@ public class MgVideo {
     private String name;
 
     private String comment;
-
-    private Integer isDel;
 
     public Long getId() {
         return id;
@@ -51,13 +49,5 @@ public class MgVideo {
 
     public void setComment(String comment) {
         this.comment = comment == null ? null : comment.trim();
-    }
-
-    public Integer getIsDel() {
-        return isDel;
-    }
-
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
     }
 }

@@ -1,17 +1,16 @@
 package org.xinhua.example.mapper;
 
-import org.xinhua.example.model.po.MgVideoNum;
+import java.util.List;
+import org.xinhua.example.model.MgVideoNum;
 
 public interface MgVideoNumMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(MgVideoNum row);
 
-    int insertSelective(MgVideoNum row);
-
     MgVideoNum selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(MgVideoNum row);
+    List<MgVideoNum> selectAll();
 
     int updateByPrimaryKey(MgVideoNum row);
 }

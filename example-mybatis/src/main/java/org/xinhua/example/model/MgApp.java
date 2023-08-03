@@ -1,4 +1,4 @@
-package org.xinhua.example.model.po;
+package org.xinhua.example.model;
 
 import java.util.Date;
 
@@ -12,8 +12,6 @@ public class MgApp {
     private String accessToken;
 
     private Date expiresTime;
-
-    private Integer isDel;
 
     public Long getPid() {
         return pid;
@@ -53,13 +51,5 @@ public class MgApp {
 
     public void setExpiresTime(Date expiresTime) {
         this.expiresTime = expiresTime;
-    }
-
-    public Integer getIsDel() {
-        return isDel;
-    }
-
-    public void setIsDel(Integer isDel) {
-        this.isDel = isDel;
     }
 }
