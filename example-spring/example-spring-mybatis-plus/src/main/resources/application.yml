@@ -1,0 +1,33 @@
+server:
+  port: ${SERVER_PORT:8080}
+  servlet:
+    context-path: ${CONTEXT_PATH:/wechat/}
+    charset: UTF-8
+    enabled: true
+    force: true
+
+spring:
+  application:
+    name: example-mybatis-plus
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/mybatis_plus?useUnicode=true&useSSL=true&characterEncoding=utf8&serverTimezone=GMT%2B8&rewriteBatchedStatements=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: deleted
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+    #log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+wechat:
+  url:
+    token: https://api.weixin.qq.com/cgi-bin/token
+    listmedia: https://api.weixin.qq.com/wxa/sec/vod/listmedia
+    getmedialink: https://api.weixin.qq.com/wxa/sec/vod/getmedialink

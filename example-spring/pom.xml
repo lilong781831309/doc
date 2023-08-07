@@ -26,6 +26,7 @@
         <module>example-spring-elasticsearch</module>
         <module>example-spring-lock</module>
         <module>example-spring-json</module>
+        <module>example-spring-mybatis-plus</module>
     </modules>
 
     <dependencies>
