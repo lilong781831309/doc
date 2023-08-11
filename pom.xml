@@ -27,7 +27,6 @@
     </properties>
 
     <modules>
-        <module>example-spring</module>
         <module>example-threads</module>
         <module>example-io</module>
         <module>example-reflect</module>
