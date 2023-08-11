@@ -2,6 +2,7 @@ package org.xinhua.example.spring.mybatisplus.config;
 
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.LaxRedirectStrategy;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.client.RestTemplateCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Configuration
+@AutoConfigureAfter(JacksonConfig.class)
 public class RestTemplateConfig {
 
     @Bean

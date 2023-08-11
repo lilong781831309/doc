@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>example-spring-org.xinhua.example.rabbitmq</artifactId>
+    <artifactId>example-spring-rabbitmq</artifactId>
 
     <dependencies>
         <dependency>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
-    <contextName>context</contextName>
+    <!--<contextName>context</contextName>-->
     <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径-->
-    <springProperty scope="context" name="log.home" source="log.home" defaultValue="./logs" />
-    <springProperty scope="context" name="log.level" source="log.level" defaultValue="DEBUG" />
-    <springProperty scope="context" name="log.maxHistory" source="log.maxHistory" defaultValue="30" />
+    <springProperty scope="context" name="log.home" source="log.home" defaultValue="./logs"/>
+    <springProperty scope="context" name="log.level" source="log.level" defaultValue="INFO"/>
+    <springProperty scope="context" name="log.maxHistory" source="log.maxHistory" defaultValue="30"/>
     <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger - %msg%n"/>
 
     <!-- debug日志 appender  -->
@@ -110,50 +110,22 @@
         </encoder>
         <!--此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
+            <level>DEBUG</level>
         </filter>
     </appender>
 
-    <appender name="ASYNC_DEBUG_FILE" class="ch.qos.logback.classic.AsyncAppender">
-        <!-- 不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
-        <discardingThreshold>0</discardingThreshold>
-        <!-- 更改默认的队列的深度,该值会影响性能.默认值为256 -->
-        <queueSize>1024</queueSize>
-        <!-- 添加附加的appender,最多只能添加一个 -->
-        <appender-ref ref="DEBUG_FILE"/>
-    </appender>
-
-    <appender name="ASYNC_INFO_FILE" class="ch.qos.logback.classic.AsyncAppender">
-        <discardingThreshold>0</discardingThreshold>
-        <queueSize>1024</queueSize>
-        <appender-ref ref="INFO_FILE"/>
-    </appender>
-
-    <appender name="ASYNC_WARN_FILE" class="ch.qos.logback.classic.AsyncAppender">
-        <discardingThreshold>0</discardingThreshold>
-        <queueSize>1024</queueSize>
-        <appender-ref ref="WARN_FILE"/>
-    </appender>
-
-    <appender name="ASYNC_ERROR_FILE" class="ch.qos.logback.classic.AsyncAppender">
-        <discardingThreshold>0</discardingThreshold>
-        <queueSize>1024</queueSize>
-        <appender-ref ref="ERROR_FILE"/>
-    </appender>
-
-    <appender name="ASYNC_STDOUT" class="ch.qos.logback.classic.AsyncAppender">
-        <discardingThreshold>0</discardingThreshold>
-        <queueSize>1024</queueSize>
-        <appender-ref ref="STDOUT"/>
-    </appender>
-
     <!--控制台打印资源加载信息-->
-    <root level="${log.lever}">
-        <appender-ref ref="ASYNC_STDOUT"/>
-        <appender-ref ref="ASYNC_DEBUG_FILE"/>
-        <appender-ref ref="ASYNC_INFO_FILE"/>
-        <appender-ref ref="ASYNC_WARN_FILE"/>
-        <appender-ref ref="ASYNC_ERROR_FILE"/>
+    <root level="${log.level}">
+        <appender-ref ref="DEBUG_FILE"/>
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="WARN_FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
+        <appender-ref ref="STDOUT"/>
     </root>
+
+    <!--日志打印的包的范围，及分类日志文件存储 -->
+    <logger name="org.xinhua.example.spring.lock" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
 
 </configuration>

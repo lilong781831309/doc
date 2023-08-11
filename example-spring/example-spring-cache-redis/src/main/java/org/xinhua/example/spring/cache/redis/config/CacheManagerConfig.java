@@ -66,12 +66,7 @@ public class CacheManagerConfig {
 
     @Bean
     CacheKeyPrefix cacheKeyPrefix() {
-        return new CacheKeyPrefix() {
-            @Override
-            public String compute(String cacheName) {
-                return cacheConfig.getPrefix() + ":" + cacheName + ":";
-            }
-        };
+        return cacheName -> cacheConfig.getPrefix() + ":" + cacheName + ":";
     }
 
 }

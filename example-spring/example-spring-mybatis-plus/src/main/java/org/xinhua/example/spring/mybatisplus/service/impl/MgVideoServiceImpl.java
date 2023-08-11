@@ -71,11 +71,8 @@ public class MgVideoServiceImpl extends ServiceImpl<MgVideoMapper, MgVideo> impl
         Map<Long, MediaInfo> mediaInfoMap = mediaInfoList.stream()
                 .collect(Collectors.toMap(MediaInfo::getMedia_id, MediaInfo -> MediaInfo));
 
-        List<Long> mediaIdList = mediaInfoList.stream()
-                .map(MediaInfo::getMedia_id).collect(Collectors.toList());
-
         List<MgVideoNum> list = Db.list(new LambdaQueryWrapper<MgVideoNum>()
-                .in(MgVideoNum::getMediaId, mediaIdList));
+                .in(MgVideoNum::getVideoId, videoId));
 
         list.forEach(mgVideoNum -> mgVideoNum.setMp4Url(mediaInfoMap.get(mgVideoNum.getMediaId()).getMp4_url()));
 
