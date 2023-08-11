@@ -23,6 +23,7 @@
         <pagehelper.version>5.3.3</pagehelper.version>
         <mybatis-generator-maven-plugin.version>1.4.2</mybatis-generator-maven-plugin.version>
         <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <rabbitmq.version>5.18.0</rabbitmq.version>
     </properties>
 
     <modules>
@@ -37,6 +38,7 @@
         <module>example-design-pattern</module>
         <module>example-zving</module>
         <module>example-mybatis</module>
+        <module>example-rabbitmq</module>
     </modules>
 
     <dependencies>
@@ -106,6 +108,11 @@
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper</artifactId>
                 <version>${pagehelper.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.rabbitmq</groupId>
+                <artifactId>amqp-client</artifactId>
+                <version>${rabbitmq.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

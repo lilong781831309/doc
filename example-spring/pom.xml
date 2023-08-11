@@ -37,7 +37,7 @@
         <module>example-spring-exception</module>
         <module>example-spring-rest-template</module>
         <module>example-spring-aspect</module>
-        <module>example-spring-rabbitmq</module>
+        <module>example-spring-org.xinhua.example.rabbitmq</module>
         <module>example-spring-jpa</module>
         <module>example-spring-elasticsearch</module>
         <module>example-spring-lock</module>

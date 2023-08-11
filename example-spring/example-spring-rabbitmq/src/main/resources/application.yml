@@ -1,6 +1,6 @@
 spring:
   application:
-    name: example-spring-rabbitmq
+    name: example-spring-org.xinhua.example.rabbitmq
 
   rabbitmq:
     host: localhost
